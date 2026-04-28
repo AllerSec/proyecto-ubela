@@ -1533,6 +1533,53 @@ button {
   }
 }
 
+/* ─── Sector Slide (carousel inside sectores section) ── */
+.sector-slide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2xl);
+  align-items: center;
+  min-height: 360px;
+}
+
+.sector-slide__img {
+  position: relative;
+  overflow: hidden;
+  height: 360px;
+}
+
+.sector-slide__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.3) contrast(1.1);
+}
+
+.sector-slide__tag {
+  position: absolute;
+  top: var(--sp-lg);
+  left: var(--sp-lg);
+}
+
+@media (max-width: 768px) {
+  .sector-slide {
+    grid-template-columns: 1fr;
+    gap: var(--sp-lg);
+    min-height: unset;
+  }
+
+  .sector-slide__img {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sector-slide__img {
+    height: 200px;
+  }
+}
+
 /* ─── Video Showcase ─────────────────────────────────── */
 .video-showcase {
   background: var(--clr-iron);
