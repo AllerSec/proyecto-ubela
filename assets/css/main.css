@@ -1533,6 +1533,89 @@ button {
   }
 }
 
+/* ─── Video Showcase ─────────────────────────────────── */
+.video-showcase {
+  background: var(--clr-iron);
+  padding: var(--sp-2xl) 0;
+}
+
+.video-showcase__wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--clr-steel);
+  /* Subtle corner clip matching site aesthetic */
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+}
+
+.video-showcase__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-showcase__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(26,28,32,0.35) 0%, transparent 30%, transparent 70%, rgba(26,28,32,0.55) 100%),
+    linear-gradient(to right,  rgba(26,28,32,0.2) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.video-showcase__badge {
+  position: absolute;
+  bottom: var(--sp-lg);
+  left: var(--sp-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.video-showcase__badge > span:first-child {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  letter-spacing: 0.12em;
+  color: var(--clr-white);
+  line-height: 1;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+.video-showcase__badge-sub {
+  font-family: var(--font-condensed);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--clr-accent-light);
+}
+
+@media (max-width: 768px) {
+  .video-showcase {
+    padding: var(--sp-xl) 0;
+  }
+
+  .video-showcase__wrap {
+    aspect-ratio: 4 / 3;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  }
+
+  .video-showcase__badge {
+    bottom: var(--sp-md);
+    left: var(--sp-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .video-showcase__wrap {
+    aspect-ratio: 3 / 4;
+    clip-path: none;
+  }
+}
+
 /* ─── Process grid (servicios.html) ─────────────────── */
 .process-grid {
   display: grid;
