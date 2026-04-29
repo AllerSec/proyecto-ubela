@@ -164,6 +164,7 @@ function prepareHeroAnimation() {
 
   gsap.set(lines, { autoAlpha: 0, y: '100%' });
   gsap.set(introSelector, { autoAlpha: 0, y: 24 });
+  gsap.set('.hero__logo-wrap', { autoAlpha: 0, scale: 0.85 });
 }
 
 function splitPageTitleLines(title) {
@@ -236,6 +237,13 @@ function initHeroAnimation() {
     duration: 0.5,
     ease: 'power3.out'
   }, '-=0.3');
+
+  tl.to('.hero__logo-wrap', {
+    autoAlpha: 1,
+    scale: 1,
+    duration: 0.9,
+    ease: 'power3.out'
+  }, '-=0.6');
 
   tl.to('.hero__scroll-hint', {
     autoAlpha: 1,
