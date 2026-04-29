@@ -293,145 +293,199 @@ function initScrollAnimations() {
     return;
   }
 
-  // Set initial hidden state via JS (not CSS) so content is visible without JS
-  gsap.set('.reveal',       { autoAlpha: 0, y: 40 });
-  gsap.set('.reveal-left',  { autoAlpha: 0, x: -40 });
-  gsap.set('.reveal-right', { autoAlpha: 0, x: 40 });
+  const mm = gsap.matchMedia();
 
-  // Animate reveal elements as they enter viewport
-  ScrollTrigger.batch('.reveal', {
-    onEnter: batch => gsap.to(batch, {
-      autoAlpha: 1, y: 0,
-      stagger: 0.1, duration: 0.7, ease: 'power3.out'
-    }),
-    onEnterBack: batch => gsap.to(batch, {
-      autoAlpha: 1, y: 0,
-      stagger: 0.05, duration: 0.4, ease: 'power2.out'
-    }),
-    start: 'top 92%',
-    once: false
-  });
+  mm.add({
+    isDesktop: '(min-width: 769px)',
+    isMobile:  '(max-width: 768px)'
+  }, (context) => {
+    const { isDesktop } = context.conditions;
 
-  ScrollTrigger.batch('.reveal-left', {
-    onEnter: batch => gsap.to(batch, {
-      autoAlpha: 1, x: 0,
-      stagger: 0.1, duration: 0.7, ease: 'power3.out'
-    }),
-    start: 'top 92%',
-    once: false
-  });
+    const revealY    = isDesktop ? 40  : 20;
+    const revealDur  = isDesktop ? 0.7 : 0.5;
+    const revealDurB = isDesktop ? 0.4 : 0.3;
 
-  ScrollTrigger.batch('.reveal-right', {
-    onEnter: batch => gsap.to(batch, {
-      autoAlpha: 1, x: 0,
-      stagger: 0.1, duration: 0.7, ease: 'power3.out'
-    }),
-    start: 'top 92%',
-    once: false
-  });
+    // Set initial hidden state via JS (not CSS) so content is visible without JS
+    gsap.set('.reveal',       { autoAlpha: 0, y: revealY });
+    gsap.set('.reveal-left',  { autoAlpha: 0, x: -40 });
+    gsap.set('.reveal-right', { autoAlpha: 0, x: 40 });
 
-  // Títulos de sección: clip-path sweep izquierda → derecha
-  qsa('.section-header .display-2, .section-header .heading-1').forEach(title => {
-    title.classList.remove('reveal');
-    gsap.set(title, { clipPath: 'inset(0 100% 0 0)', autoAlpha: 1 });
-    ScrollTrigger.create({
-      trigger: title,
-      start: 'top 88%',
-      once: true,
-      onEnter: () => {
-        gsap.to(title, {
-          clipPath: 'inset(0 0% 0 0)',
-          duration: 0.85,
-          ease: 'power4.out'
-        });
-      }
+    // Animate reveal elements as they enter viewport
+    ScrollTrigger.batch('.reveal', {
+      onEnter: batch => gsap.to(batch, {
+        autoAlpha: 1, y: 0,
+        stagger: 0.1, duration: revealDur, ease: 'power3.out'
+      }),
+      onEnterBack: batch => gsap.to(batch, {
+        autoAlpha: 1, y: 0,
+        stagger: 0.05, duration: revealDurB, ease: 'power2.out'
+      }),
+      start: 'top 92%',
+      once: false
     });
-  });
 
-  // Cards con entrada 3D
-  const sectorCards = qsa('.grid-3 .card');
-  if (sectorCards.length && !isMobile()) {
-    gsap.set(sectorCards, { autoAlpha: 0, x: -30, rotationY: -8, transformPerspective: 1200 });
-    ScrollTrigger.create({
-      trigger: '.grid-3',
-      start: 'top 85%',
-      once: true,
-      onEnter: () => {
-        gsap.to(sectorCards, {
-          autoAlpha: 1, x: 0, rotationY: 0,
-          duration: 0.8, ease: 'power3.out', stagger: 0.15
-        });
-      }
+    ScrollTrigger.batch('.reveal-left', {
+      onEnter: batch => gsap.to(batch, {
+        autoAlpha: 1, x: 0,
+        stagger: 0.1, duration: revealDur, ease: 'power3.out'
+      }),
+      start: 'top 92%',
+      once: false
     });
-  }
 
-  // About image: persiana que se abre horizontalmente
-  const aboutImg = qs('.about-image-wrap img');
-  if (aboutImg) {
-    const wrap = aboutImg.closest('.about-image-wrap');
-    if (wrap) wrap.classList.remove('reveal-left');
-    gsap.set(aboutImg, { clipPath: 'inset(0 100% 0 0)' });
-    ScrollTrigger.create({
-      trigger: aboutImg,
-      start: 'top 85%',
-      once: true,
-      onEnter: () => {
-        gsap.to(aboutImg, {
-          clipPath: 'inset(0 0% 0 0)',
-          duration: 1.0,
-          ease: 'power3.inOut'
-        });
-      }
+    ScrollTrigger.batch('.reveal-right', {
+      onEnter: batch => gsap.to(batch, {
+        autoAlpha: 1, x: 0,
+        stagger: 0.1, duration: revealDur, ease: 'power3.out'
+      }),
+      start: 'top 92%',
+      once: false
     });
-  }
 
-  // Counters
-  qsa('.stat__number[data-count]').forEach(el => {
-    const target = parseInt(el.dataset.count, 10);
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 90%',
-      once: true,
-      onEnter: () => {
-        gsap.to({ val: 0 }, {
-          val: target,
-          duration: 1.6,
-          ease: 'power2.out',
-          onUpdate: function () {
-            el.textContent = Math.round(this.targets()[0].val)
-              + (el.dataset.suffix || '');
-          },
-          onComplete: () => {
-            gsap.fromTo(el,
-              { color: '#3da34d' },
-              { color: el.closest('.stat')?.style.color || 'var(--clr-white)',
-                duration: 0.6, ease: 'power2.out' }
-            );
+    // Títulos de sección: clip-path sweep (desktop) or simple fade (mobile)
+    qsa('.section-header .display-2, .section-header .heading-1').forEach(title => {
+      title.classList.remove('reveal');
+      if (isDesktop) {
+        gsap.set(title, { clipPath: 'inset(0 100% 0 0)', autoAlpha: 1 });
+        ScrollTrigger.create({
+          trigger: title,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.to(title, {
+              clipPath: 'inset(0 0% 0 0)',
+              duration: 0.85,
+              ease: 'power4.out'
+            });
+          }
+        });
+      } else {
+        gsap.set(title, { autoAlpha: 0 });
+        ScrollTrigger.create({
+          trigger: title,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.to(title, { autoAlpha: 1, duration: 0.5, ease: 'power3.out' });
           }
         });
       }
     });
-  });
 
-  // Services grid stagger
-  const serviceItems = qsa('.service-item');
-  if (serviceItems.length) {
-    gsap.set(serviceItems, { autoAlpha: 0, y: 50, scaleY: 0.92, transformOrigin: 'top center' });
-    gsap.to(serviceItems, {
-      autoAlpha: 1, y: 0, scaleY: 1,
-      stagger: 0.08, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: '.services-grid', start: 'top 85%', once: true }
-    });
-  }
-
-  // Parallax sections
-  qsa('[data-parallax-section]').forEach(el => {
-    gsap.to(el, {
-      y: () => el.dataset.parallaxSection || -60,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: el, start: 'top bottom', end: 'bottom top', scrub: true
+    // Cards con entrada 3D (desktop only)
+    const sectorCards = qsa('.grid-3 .card');
+    if (sectorCards.length) {
+      const rotY = isDesktop ? -8 : 0;
+      if (isDesktop) {
+        gsap.set(sectorCards, { autoAlpha: 0, x: -30, rotationY: rotY, transformPerspective: 1200 });
+        ScrollTrigger.create({
+          trigger: '.grid-3',
+          start: 'top 85%',
+          once: true,
+          onEnter: () => {
+            gsap.to(sectorCards, {
+              autoAlpha: 1, x: 0, rotationY: 0,
+              duration: 0.8, ease: 'power3.out', stagger: 0.15
+            });
+          }
+        });
+      } else {
+        gsap.set(sectorCards, { autoAlpha: 0, y: 20 });
+        ScrollTrigger.create({
+          trigger: '.grid-3',
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.to(sectorCards, {
+              autoAlpha: 1, y: 0,
+              duration: 0.5, ease: 'power3.out', stagger: 0.1
+            });
+          }
+        });
       }
+    }
+
+    // About image: persiana (desktop) or simple fade (mobile)
+    const aboutImg = qs('.about-image-wrap img');
+    if (aboutImg) {
+      const wrap = aboutImg.closest('.about-image-wrap');
+      if (wrap) wrap.classList.remove('reveal-left');
+      if (isDesktop) {
+        gsap.set(aboutImg, { clipPath: 'inset(0 100% 0 0)' });
+        ScrollTrigger.create({
+          trigger: aboutImg,
+          start: 'top 85%',
+          once: true,
+          onEnter: () => {
+            gsap.to(aboutImg, {
+              clipPath: 'inset(0 0% 0 0)',
+              duration: 1.0,
+              ease: 'power3.inOut'
+            });
+          }
+        });
+      } else {
+        gsap.set(aboutImg, { autoAlpha: 0 });
+        ScrollTrigger.create({
+          trigger: aboutImg,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.to(aboutImg, { autoAlpha: 1, duration: 0.5, ease: 'power3.out' });
+          }
+        });
+      }
+    }
+
+    // Counters
+    qsa('.stat__number[data-count]').forEach(el => {
+      const target = parseInt(el.dataset.count, 10);
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+          gsap.to({ val: 0 }, {
+            val: target,
+            duration: 1.6,
+            ease: 'power2.out',
+            onUpdate: function () {
+              el.textContent = Math.round(this.targets()[0].val)
+                + (el.dataset.suffix || '');
+            },
+            onComplete: () => {
+              gsap.fromTo(el,
+                { color: '#3da34d' },
+                { color: el.closest('.stat')?.style.color || 'var(--clr-white)',
+                  duration: 0.6, ease: 'power2.out' }
+              );
+            }
+          });
+        }
+      });
+    });
+
+    // Services grid stagger
+    const serviceItems = qsa('.service-item');
+    if (serviceItems.length) {
+      const sY = isDesktop ? 50 : 20;
+      gsap.set(serviceItems, { autoAlpha: 0, y: sY, scaleY: isDesktop ? 0.92 : 1, transformOrigin: 'top center' });
+      gsap.to(serviceItems, {
+        autoAlpha: 1, y: 0, scaleY: 1,
+        stagger: 0.08, duration: revealDur, ease: 'power3.out',
+        scrollTrigger: { trigger: '.services-grid', start: 'top 85%', once: true }
+      });
+    }
+
+    // Parallax sections
+    qsa('[data-parallax-section]').forEach(el => {
+      gsap.to(el, {
+        y: () => el.dataset.parallaxSection || -60,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el, start: 'top bottom', end: 'bottom top', scrub: true
+        }
+      });
     });
   });
 }

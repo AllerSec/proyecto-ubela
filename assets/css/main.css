@@ -1676,6 +1676,19 @@ button {
   .nav__overlay .nav__link {
     font-size: 2rem;
   }
+
+  /* Touch targets — WCAG 2.5.5 */
+  .btn {
+    min-height: 52px;
+  }
+
+  .nav__hamburger {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1718,10 +1731,15 @@ button {
   .hero__logo-wrap {
     order: -1;
     justify-content: center;
+    width: clamp(80px, 28vw, 130px);
   }
 
   .hero__logo-wrap img {
     width: clamp(100px, 35vw, 160px);
+  }
+
+  .hero__eyebrow {
+    letter-spacing: 0.2em;
   }
 
   .hero__cta {
