@@ -1003,6 +1003,7 @@ function initPinSection() {
       start: 'left 70%',
       end: 'right 30%',
       onEnter: () => gsap.to(step, { autoAlpha: 1, duration: 0.4 }),
+      onLeave: () => gsap.to(step, { autoAlpha: 0.3, duration: 0.4 }),
       onLeaveBack: () => gsap.to(step, { autoAlpha: i === 0 ? 1 : 0.3, duration: 0.4 })
     });
   });
