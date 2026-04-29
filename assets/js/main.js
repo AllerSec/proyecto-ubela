@@ -525,7 +525,19 @@ function initParticleCanvas() {
   for (let i = 0; i < 60; i++) particles.push(new Particle(false));
   for (let i = 0; i < 20; i++) particles.push(new Particle(true));
 
+  let isVisible = true;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      isVisible = entries[0].isIntersecting;
+      if (isVisible) animate();
+    },
+    { threshold: 0 }
+  );
+  observer.observe(canvas);
+
   function animate() {
+    if (!isVisible) return;
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => { p.update(); p.draw(); });
     ctx.globalAlpha = 1;
@@ -690,7 +702,19 @@ function initHeroSVGBackground() {
     });
   }
 
+  let isVisible = true;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      isVisible = entries[0].isIntersecting;
+      if (isVisible) render();
+    },
+    { threshold: 0 }
+  );
+  observer.observe(canvas);
+
   function render() {
+    if (!isVisible) return;
     ctx.clearRect(0, 0, W, H);
     drawGridLines(1);
     drawScanLine();
