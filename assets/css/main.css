@@ -1494,6 +1494,40 @@ button {
   }
 }
 
+/* ─── CTA Band ───────────────────────────────────────── */
+.cta-band {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-band__bg-text {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.08);
+  color: transparent;
+}
+
+.cta-band__content {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-band::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(45, 125, 58, 0.04), transparent);
+  animation: ctaScan 6s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes ctaScan {
+  0%   { left: -60%; }
+  100% { left: 120%; }
+}
+
 /* ─── Responsive ──────────────────────────────────────── */
 @media (max-width: 1024px) {
   :root {
@@ -1926,6 +1960,10 @@ button {
   }
 
   .hero__scroll-line {
+    animation: none;
+  }
+
+  .cta-band::before {
     animation: none;
   }
 }
