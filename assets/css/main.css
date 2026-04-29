@@ -1822,6 +1822,17 @@ button {
   }
 }
 
+/* ─── Page Transition Overlay ────────────────────────── */
+#page-transition {
+  position: fixed;
+  inset: 0;
+  background: var(--clr-iron);
+  z-index: 9999;
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path;
+}
+
 /* ─── Utility ─────────────────────────────────────────── */
 .visually-hidden {
   position: absolute;

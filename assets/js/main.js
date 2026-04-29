@@ -837,6 +837,17 @@ function initPrefetch() {
 
 /* ── Page transition on link clicks ──────────────────── */
 function initPageTransitions() {
+  const overlay = qs('#page-transition');
+
+  if (overlay) {
+    gsap.fromTo(overlay,
+      { clipPath: 'inset(0 0% 0 0)' },
+      { clipPath: 'inset(0 100% 0 0)', duration: 0.45, ease: 'power3.inOut', delay: 0.05,
+        onComplete: () => { overlay.style.pointerEvents = 'none'; }
+      }
+    );
+  }
+
   document.addEventListener('click', e => {
     const link = e.target.closest('a[href]');
     if (!link) return;
@@ -847,23 +858,18 @@ function initPageTransitions() {
         link.target === '_blank') return;
 
     e.preventDefault();
+    if (!overlay) { window.location.href = href; return; }
 
-    gsap.to('body', {
-      autoAlpha: 0,
-      duration: 0.3,
-      ease: 'power2.in',
-      onComplete: () => {
-        window.location.href = href;
+    overlay.style.pointerEvents = 'all';
+    gsap.fromTo(overlay,
+      { clipPath: 'inset(0 100% 0 0)' },
+      {
+        clipPath: 'inset(0 0% 0 0)',
+        duration: 0.4,
+        ease: 'power3.inOut',
+        onComplete: () => { window.location.href = href; }
       }
-    });
-  });
-
-  // Fade in on load (for transitions)
-  gsap.from('body', {
-    autoAlpha: 0,
-    duration: 0.4,
-    ease: 'power2.out',
-    clearProps: 'opacity,visibility'
+    );
   });
 }
 
