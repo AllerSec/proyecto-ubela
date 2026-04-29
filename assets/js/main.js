@@ -438,25 +438,33 @@ function initScrollAnimations() {
 
 /* ── Mouse Parallax ───────────────────────────────────── */
 function initMouseParallax() {
-  if (isMobile()) return;
+  if (!window.matchMedia('(pointer: fine)').matches) return;
 
   const parallaxEls = qsa('[data-parallax]');
   if (!parallaxEls.length) return;
 
-  document.addEventListener('mousemove', e => {
-    const cx = window.innerWidth  / 2;
-    const cy = window.innerHeight / 2;
-    const dx = (e.clientX - cx) / cx;
-    const dy = (e.clientY - cy) / cy;
+  // Set will-change once before attaching the listener (hints compositor)
+  parallaxEls.forEach(el => {
+    el.style.willChange = 'transform';
+  });
 
-    parallaxEls.forEach(el => {
-      const strength = parseFloat(el.dataset.parallax) || 1;
-      gsap.to(el, {
-        x: dx * 20 * strength,
-        y: dy * 10 * strength,
-        duration: 1,
-        ease: 'power1.out'
-      });
+  // Create one quickTo per element per axis — reuses a single tween, no GC pressure
+  const movers = parallaxEls.map(el => {
+    const strength = parseFloat(el.dataset.parallax) || 1;
+    return {
+      xTo: gsap.quickTo(el, 'x', { duration: 0.8, ease: 'power2.out' }),
+      yTo: gsap.quickTo(el, 'y', { duration: 0.8, ease: 'power2.out' }),
+      strength,
+    };
+  });
+
+  document.addEventListener('mousemove', e => {
+    const dx = (e.clientX / window.innerWidth  - 0.5) * 2; // -1 to 1
+    const dy = (e.clientY / window.innerHeight - 0.5) * 2;
+
+    movers.forEach(({ xTo, yTo, strength }) => {
+      xTo(dx * 20 * strength);
+      yTo(dy * 10 * strength);
     });
   });
 }
