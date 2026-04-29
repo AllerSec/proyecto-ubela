@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviso Legal | UBELA S.L.</title>
+  <meta name="description" content="Aviso legal de UBELA S.L. — Información sobre el titular del sitio web, condiciones de uso y responsabilidad. CIF: B31419146. Bera, Navarra." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href="https://www.ubela.net/aviso-legal.html" />
+  <link rel="alternate" hreflang="es" href="https://www.ubela.net/aviso-legal.html" />
+  <link rel="alternate" hreflang="en" href="https://www.ubela.net/en/legal-notice.html" />
+  <link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/lege-oharra.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/mentions-legales.html" />
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NBVPJV6G');</script>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    .legal-hero {
+      padding-top: calc(var(--nav-h) + var(--sp-2xl));
+      padding-bottom: var(--sp-xl);
+      background: var(--clr-iron);
+      position: relative;
+      overflow: hidden;
+    }
+    .legal-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--clr-accent), transparent);
+    }
+    .legal-hero__bg-text {
+      position: absolute;
+      right: -1%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 18vw, 16rem);
+      line-height: 1;
+      color: rgba(255,255,255,0.025);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .legal-body {
+      background: var(--clr-iron);
+      padding: var(--sp-2xl) 0;
+    }
+    .legal-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: var(--sp-2xl);
+      align-items: start;
+    }
+    .legal-toc {
+      position: sticky;
+      top: calc(var(--nav-h) + var(--sp-lg));
+    }
+    .legal-toc__title {
+      font-family: var(--font-condensed);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: var(--sp-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .legal-toc__title::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--clr-accent);
+      flex-shrink: 0;
+    }
+    .legal-toc__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      border-left: 1px solid rgba(255,255,255,0.07);
+      padding-left: var(--sp-md);
+    }
+    .legal-toc__link {
+      font-family: var(--font-condensed);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      color: var(--clr-slate);
+      padding: 0.3rem 0;
+      transition: color var(--dur-fast), padding-left var(--dur-fast);
+      display: block;
+    }
+    .legal-toc__link:hover {
+      color: var(--clr-cloud);
+      padding-left: 0.4rem;
+    }
+    .legal-toc__link.active {
+      color: var(--clr-accent);
+    }
+    .legal-content {
+      max-width: 720px;
+    }
+    .legal-section {
+      margin-bottom: var(--sp-2xl);
+      scroll-margin-top: calc(var(--nav-h) + var(--sp-lg));
+    }
+    .legal-section__num {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--clr-accent);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .legal-section__title {
+      font-family: var(--font-condensed);
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--clr-white);
+      margin-bottom: var(--sp-md);
+      padding-bottom: var(--sp-md);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .legal-section p {
+      font-size: 0.9375rem;
+      line-height: 1.75;
+      color: var(--clr-fog);
+      margin-bottom: 1rem;
+    }
+    .legal-section p:last-child { margin-bottom: 0; }
+    .legal-section ul {
+      list-style: none;
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .legal-section ul li {
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      color: var(--clr-fog);
+      padding-left: 1.4rem;
+      position: relative;
+    }
+    .legal-section ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 6px;
+      height: 1px;
+      background: var(--clr-accent);
+    }
+    .legal-section a {
+      color: var(--clr-accent-light);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color var(--dur-fast);
+    }
+    .legal-section a:hover { color: var(--clr-white); }
+    .legal-info-box {
+      background: rgba(45,125,58,0.08);
+      border: 1px solid rgba(45,125,58,0.25);
+      border-left: 3px solid var(--clr-accent);
+      padding: var(--sp-lg);
+      margin: var(--sp-lg) 0;
+    }
+    .legal-info-box p {
+      margin: 0;
+      font-size: 0.875rem;
+    }
+    .legal-update {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-condensed);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-slate);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 0.4rem 0.9rem;
+      margin-bottom: var(--sp-2xl);
+    }
+    @media (max-width: 900px) {
+      .legal-layout { grid-template-columns: 1fr; }
+      .legal-toc { position: static; display: none; }
+    }
+  </style>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBVPJV6G" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <div class="cursor" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"></div></div>
+
+  <!-- Navegación -->
+  <nav class="nav" role="navigation" aria-label="Navegación principal">
+    <a href="index.html" class="nav__logo" aria-label="UBELA S.L.">
+      <img src="assets/images/logo.png" alt="UBELA S.L." class="nav__logo-img" width="120" height="55" />
+    </a>
+    <ul class="nav__menu" role="list">
+      <li><a href="index.html" class="nav__link" data-page="index.html">Inicio</a></li>
+      <li><a href="servicios.html" class="nav__link" data-page="servicios.html">Servicios</a></li>
+      <li><a href="sobre-nosotros.html" class="nav__link" data-page="sobre-nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html" class="nav__link" data-page="contacto.html">Contacto</a></li>
+      <li class="nav__lang" aria-label="Selector de idioma">
+        <a href="aviso-legal.html" class="nav__lang-btn active" aria-label="Español" aria-current="true">ES</a>
+        <a href="en/legal-notice.html" class="nav__lang-btn" aria-label="English">EN</a>
+        <a href="eu/lege-oharra.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
+        <a href="fr/mentions-legales.html" class="nav__lang-btn" aria-label="Français">FR</a>
+      </li>
+    </ul>
+    <button class="nav__hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-overlay">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav__overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Menú móvil">
+    <ul role="list">
+      <li><a href="index.html" class="nav__link">Inicio</a></li>
+      <li><a href="servicios.html" class="nav__link">Servicios</a></li>
+      <li><a href="sobre-nosotros.html" class="nav__link">Nosotros</a></li>
+      <li><a href="contacto.html" class="nav__link">Contacto</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="aviso-legal.html" class="nav__lang-btn active">ES</a>
+      <a href="en/legal-notice.html" class="nav__lang-btn">EN</a>
+      <a href="eu/lege-oharra.html" class="nav__lang-btn">EU</a>
+      <a href="fr/mentions-legales.html" class="nav__lang-btn">FR</a>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="legal-hero" aria-label="Aviso Legal">
+      <span class="legal-hero__bg-text" aria-hidden="true">LEGAL</span>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Ruta de navegación">
+          <span class="breadcrumb__item"><a href="index.html">Inicio</a></span>
+          <span class="breadcrumb__sep" aria-hidden="true">›</span>
+          <span class="breadcrumb__item" aria-current="page">Aviso Legal</span>
+        </nav>
+        <p class="eyebrow">Información Legal</p>
+        <h1 class="display-2" style="margin-top:1rem;">AVISO LEGAL</h1>
+        <p class="body-lg" style="max-width:560px;margin-top:1.5rem;">
+          Condiciones de uso del sitio web de UBELA S.L. De conformidad con la Ley 34/2002 de Servicios de la Sociedad de la Información.
+        </p>
+      </div>
+    </section>
+
+    <!-- Cuerpo -->
+    <div class="legal-body">
+      <div class="container">
+        <div class="legal-update">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+          Última actualización: abril 2025
+        </div>
+
+        <div class="legal-layout">
+
+          <!-- Índice lateral -->
+          <nav class="legal-toc" aria-label="Índice de contenidos">
+            <p class="legal-toc__title">Índice</p>
+            <ul class="legal-toc__list" role="list">
+              <li><a class="legal-toc__link" href="#titular">1. Datos del titular</a></li>
+              <li><a class="legal-toc__link" href="#objeto">2. Objeto y ámbito</a></li>
+              <li><a class="legal-toc__link" href="#condiciones">3. Condiciones de uso</a></li>
+              <li><a class="legal-toc__link" href="#propiedad">4. Propiedad intelectual</a></li>
+              <li><a class="legal-toc__link" href="#responsabilidad">5. Responsabilidad</a></li>
+              <li><a class="legal-toc__link" href="#enlaces">6. Enlaces externos</a></li>
+              <li><a class="legal-toc__link" href="#ley">7. Legislación aplicable</a></li>
+              <li><a class="legal-toc__link" href="#contacto">8. Contacto</a></li>
+            </ul>
+          </nav>
+
+          <!-- Contenido -->
+          <article class="legal-content">
+
+            <section class="legal-section" id="titular">
+              <span class="legal-section__num">01</span>
+              <h2 class="legal-section__title">Datos identificativos del titular</h2>
+              <div class="legal-info-box">
+                <p><strong style="color:var(--clr-cloud);">UBELA S.L.</strong> es el titular y responsable de este sitio web. Sus datos identificativos son los siguientes:</p>
+              </div>
+              <ul>
+                <li><strong style="color:var(--clr-cloud);">Razón social:</strong> UBELA S.L.</li>
+                <li><strong style="color:var(--clr-cloud);">CIF:</strong> B31419146</li>
+                <li><strong style="color:var(--clr-cloud);">Domicilio social:</strong> Calle Zalain Industrialdea, 9 — 31780 Bera (Navarra), España</li>
+                <li><strong style="color:var(--clr-cloud);">Teléfono:</strong> <a href="tel:+34948631167">+34 948 63 11 67</a></li>
+                <li><strong style="color:var(--clr-cloud);">Correo electrónico:</strong> <a href="mailto:juanma@ubela.net">juanma@ubela.net</a></li>
+                <li><strong style="color:var(--clr-cloud);">Sitio web:</strong> <a href="https://www.ubela.net">www.ubela.net</a></li>
+                <li><strong style="color:var(--clr-cloud);">Registro Mercantil:</strong> Inscrita en el Registro Mercantil de Navarra</li>
+              </ul>
+            </section>
+
+            <section class="legal-section" id="objeto">
+              <span class="legal-section__num">02</span>
+              <h2 class="legal-section__title">Objeto y ámbito de aplicación</h2>
+              <p>El presente Aviso Legal regula el acceso y uso del sitio web <strong style="color:var(--clr-cloud);">www.ubela.net</strong> (en adelante, "el Sitio Web"), propiedad de UBELA S.L., cuya actividad principal es la prestación de servicios de mecanizado de precisión, fabricación de matrices, troqueles, rodillos de laminación y utillaje industrial.</p>
+              <p>El acceso al Sitio Web implica la aceptación plena y sin reservas de las condiciones recogidas en el presente Aviso Legal. UBELA S.L. se reserva el derecho a modificar en cualquier momento las condiciones de acceso y uso del Sitio Web, sin obligación de preaviso. Los cambios serán efectivos desde el momento de su publicación.</p>
+              <p>El Sitio Web está dirigido principalmente a empresas y profesionales del sector industrial que requieran servicios de mecanizado de precisión en España y el ámbito europeo.</p>
+            </section>
+
+            <section class="legal-section" id="condiciones">
+              <span class="legal-section__num">03</span>
+              <h2 class="legal-section__title">Condiciones de uso</h2>
+              <p>El usuario se compromete a utilizar el Sitio Web de conformidad con la ley, la moral, el orden público y las presentes condiciones de uso. Queda expresamente prohibido:</p>
+              <ul>
+                <li>Utilizar el Sitio Web con fines ilícitos o contrarios a las presentes condiciones.</li>
+                <li>Introducir o difundir contenidos o propaganda de carácter racista, xenófobo, pornográfico o atentatoria contra los derechos humanos.</li>
+                <li>Dañar, inutilizar, sobrecargar o deteriorar el Sitio Web o impedir su normal disfrute por parte de otros usuarios.</li>
+                <li>Intentar acceder o acceder a cuentas restringidas de otros usuarios o a sistemas informáticos de UBELA S.L. sin autorización.</li>
+                <li>Utilizar robots, arañas u otros medios automatizados para acceder al Sitio Web con fines no autorizados.</li>
+                <li>Reproducir, copiar, distribuir o comunicar públicamente los contenidos sin autorización expresa de UBELA S.L.</li>
+              </ul>
+              <p>UBELA S.L. se reserva el derecho a denegar o retirar el acceso al Sitio Web, en cualquier momento y sin necesidad de preaviso, a aquellos usuarios que incumplan las presentes condiciones.</p>
+            </section>
+
+            <section class="legal-section" id="propiedad">
+              <span class="legal-section__num">04</span>
+              <h2 class="legal-section__title">Propiedad intelectual e industrial</h2>
+              <p>Todos los contenidos del Sitio Web —incluyendo, sin carácter limitativo, textos, fotografías, gráficos, imágenes, iconos, tecnología, software, links y demás contenidos audiovisuales o sonoros— son propiedad intelectual de UBELA S.L. o de terceros, sin que pueda entenderse que el acceso al Sitio Web atribuya al usuario ningún derecho sobre los mismos.</p>
+              <p>Las marcas, nombres comerciales o signos distintivos son titularidad de UBELA S.L. o de terceros, sin que pueda entenderse que el acceso al Sitio Web atribuya ningún derecho sobre los mismos.</p>
+              <p>Queda expresamente prohibida la reproducción, distribución, comunicación pública o transformación de cualquier elemento del Sitio Web sin la autorización escrita de UBELA S.L. Las infracciones serán perseguidas con arreglo a la legislación vigente.</p>
+            </section>
+
+            <section class="legal-section" id="responsabilidad">
+              <span class="legal-section__num">05</span>
+              <h2 class="legal-section__title">Exclusión de responsabilidad</h2>
+              <p>UBELA S.L. no se hace responsable de los daños y perjuicios de cualquier naturaleza que pudieran derivarse del acceso o uso del Sitio Web, incluyendo los daños producidos en los sistemas informáticos o los introducidos por virus informáticos.</p>
+              <p>UBELA S.L. no garantiza la disponibilidad y continuidad del funcionamiento del Sitio Web. Cuando ello sea razonablemente posible, UBELA S.L. advertirá previamente de las interrupciones en el funcionamiento. El Sitio Web puede estar temporalmente no disponible por razones técnicas o de mantenimiento.</p>
+              <p>UBELA S.L. no garantiza la inexistencia de errores en el acceso al Sitio Web ni que el contenido esté actualizado, aunque desarrollará sus mejores esfuerzos para, en su caso, evitarlos, subsanarlos o actualizarlos.</p>
+            </section>
+
+            <section class="legal-section" id="enlaces">
+              <span class="legal-section__num">06</span>
+              <h2 class="legal-section__title">Política de enlaces externos</h2>
+              <p>El Sitio Web puede contener enlaces a sitios web de terceros. UBELA S.L. no asume ningún tipo de responsabilidad sobre esos sitios, sus contenidos, su política de privacidad o su disponibilidad.</p>
+              <p>La inclusión de un enlace a un sitio externo no implica la aprobación del mismo por parte de UBELA S.L. ni ningún tipo de asociación entre ambas partes.</p>
+              <p>Si el usuario detectara que algún enlace desde este Sitio Web dirige a contenidos inapropiados o ilegales, puede comunicarlo a UBELA S.L. a través de <a href="mailto:juanma@ubela.net">juanma@ubela.net</a>.</p>
+            </section>
+
+            <section class="legal-section" id="ley">
+              <span class="legal-section__num">07</span>
+              <h2 class="legal-section__title">Legislación aplicable y jurisdicción</h2>
+              <p>Las relaciones entre UBELA S.L. y el usuario se rigen por la normativa española vigente y, en particular, por:</p>
+              <ul>
+                <li>Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y Comercio Electrónico (LSSI-CE).</li>
+                <li>Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD).</li>
+                <li>Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016 (RGPD).</li>
+                <li>Ley 1/2000, de 7 de enero, de Enjuiciamiento Civil.</li>
+              </ul>
+              <p>Para la resolución de cualquier controversia derivada del uso del Sitio Web, las partes se someten a los Juzgados y Tribunales del domicilio social de UBELA S.L., en Pamplona / Iruña (Navarra), salvo que la normativa aplicable establezca un fuero imperativo distinto.</p>
+            </section>
+
+            <section class="legal-section" id="contacto">
+              <span class="legal-section__num">08</span>
+              <h2 class="legal-section__title">Contacto</h2>
+              <p>Para cualquier consulta relacionada con el presente Aviso Legal, puede ponerse en contacto con UBELA S.L. a través de los siguientes medios:</p>
+              <ul>
+                <li><strong style="color:var(--clr-cloud);">Correo electrónico:</strong> <a href="mailto:juanma@ubela.net">juanma@ubela.net</a></li>
+                <li><strong style="color:var(--clr-cloud);">Teléfono:</strong> <a href="tel:+34948631167">+34 948 63 11 67</a></li>
+                <li><strong style="color:var(--clr-cloud);">Dirección postal:</strong> Calle Zalain Industrialdea, 9 — 31780 Bera (Navarra), España</li>
+                <li><strong style="color:var(--clr-cloud);">Horario de atención:</strong> Lunes a viernes, 08:00 – 18:00</li>
+              </ul>
+            </section>
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo"><img src="assets/images/logo.png" alt="UBELA S.L." class="footer__logo-img" width="110" height="50" /></div>
+          <p class="footer__tagline">Mecanizado de precisión en Navarra desde 1993. Matrices, troqueles, rodillos y utillaje industrial para los sectores más exigentes.</p>
+        </div>
+        <nav aria-label="Navegación del pie de página">
+          <p class="footer__heading">Navegación</p>
+          <ul class="footer__links" role="list">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="servicios.html">Servicios</a></li>
+            <li><a href="sobre-nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Legal">
+          <p class="footer__heading">Legal</p>
+          <ul class="footer__links" role="list">
+            <li><a href="aviso-legal.html" aria-current="page">Aviso Legal</a></li>
+            <li><a href="privacidad.html">Privacidad</a></li>
+            <li><a href="cookies.html">Cookies</a></li>
+          </ul>
+        </nav>
+        <address style="font-style:normal;">
+          <p class="footer__heading">Contacto</p>
+          <div class="footer__contact-item">
+            <svg class="footer__contact-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M8 1C5.24 1 3 3.24 3 6c0 4 5 9 5 9s5-5 5-9c0-2.76-2.24-5-5-5z"/><circle cx="8" cy="6" r="1.5"/></svg>
+            <p class="footer__contact-text">Calle Zalain Industrialdea, 9<br>31780 Bera (Navarra), España</p>
+          </div>
+          <div class="footer__contact-item">
+            <svg class="footer__contact-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 3h3l1.5 3.5L5 8s1 2 3 3l1.5-1.5L13 11v3c-6 0-11-5-11-11z"/></svg>
+            <a href="tel:+34948631167" class="footer__contact-text">+34 948 63 11 67</a>
+          </div>
+          <div class="footer__contact-item">
+            <svg class="footer__contact-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="1"/><path d="M1 4l7 5 7-5"/></svg>
+            <a href="mailto:juanma@ubela.net" class="footer__contact-text">juanma@ubela.net</a>
+          </div>
+        </address>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; 2025 UBELA S.L. &mdash; CIF: B31419146 &mdash; Todos los derechos reservados. &mdash; Diseño web por <a href="https://unaxaller.com" target="_blank" rel="noopener noreferrer">unaxaller.com</a></p>
+        <nav class="footer__legal" aria-label="Páginas legales">
+          <a href="aviso-legal.html" aria-current="page">Aviso Legal</a>
+          <a href="privacidad.html">Privacidad</a>
+          <a href="cookies.html">Cookies</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    // TOC active state on scroll
+    (function() {
+      const links = document.querySelectorAll('.legal-toc__link');
+      const sections = document.querySelectorAll('.legal-section');
+      if (!links.length || !sections.length) return;
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector('.legal-toc__link[href="#' + e.target.id + '"]');
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px' });
+      sections.forEach(s => obs.observe(s));
+    })();
+  </script>
+</body>
+</html>
