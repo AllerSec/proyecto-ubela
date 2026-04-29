@@ -1593,10 +1593,11 @@ button {
 .video-showcase__wrap {
   position: relative;
   width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--clr-steel);
-  /* Subtle corner clip matching site aesthetic */
   clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
 }
 
