@@ -1410,6 +1410,90 @@ button {
   transition: transform 0.1s linear;
 }
 
+/* ─── Pin Section (proceso) ──────────────────────────── */
+.pin-section {
+  overflow: visible !important;
+}
+
+.pin-section__outer {
+  overflow: hidden;
+  width: 100%;
+}
+
+.pin-section__track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  will-change: transform;
+}
+
+.pin-section__step {
+  width: min(480px, 90vw);
+  padding: var(--sp-xl) var(--sp-2xl);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.pin-section__step + .pin-section__step {
+  border-left: 1px solid rgba(255,255,255,0.07);
+}
+
+.pin-section__number {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 10vw, 8rem);
+  line-height: 1;
+  color: rgba(45,125,58,0.1);
+  position: absolute;
+  top: var(--sp-md);
+  right: var(--sp-xl);
+  pointer-events: none;
+  user-select: none;
+}
+
+.pin-section__icon {
+  color: var(--clr-accent);
+  margin-bottom: var(--sp-lg);
+}
+
+.pin-section__title {
+  font-family: var(--font-condensed);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--clr-white);
+  margin-bottom: var(--sp-md);
+  text-transform: uppercase;
+}
+
+.pin-section__text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--clr-slate);
+  max-width: 360px;
+}
+
+@media (max-width: 768px) {
+  .pin-section__outer {
+    overflow: visible;
+  }
+  .pin-section__track {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--sp-xl);
+  }
+  .pin-section__step {
+    width: 100%;
+    padding: var(--sp-lg);
+  }
+  .pin-section__step + .pin-section__step {
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .pin-section__number {
+    font-size: 4rem;
+  }
+}
+
 /* ─── Responsive ──────────────────────────────────────── */
 @media (max-width: 1024px) {
   :root {

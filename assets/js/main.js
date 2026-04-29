@@ -968,6 +968,46 @@ function initPageTransitions() {
   });
 }
 
+/* ── Pin Section (proceso) ────────────────────────────── */
+function initPinSection() {
+  if (isMobile()) return;
+
+  const section = qs('.pin-section');
+  const track = qs('.pin-section__track');
+  if (!section || !track) return;
+
+  const steps = qsa('.pin-section__step', track);
+  if (!steps.length) return;
+
+  const getScrollDist = () => track.scrollWidth - section.offsetWidth;
+
+  const tween = gsap.to(track, {
+    x: () => -getScrollDist(),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: section,
+      start: 'top top',
+      end: () => '+=' + (getScrollDist() + window.innerHeight * 0.5),
+      pin: true,
+      scrub: 1.2,
+      invalidateOnRefresh: true,
+      anticipatePin: 1
+    }
+  });
+
+  steps.forEach((step, i) => {
+    gsap.set(step, { autoAlpha: i === 0 ? 1 : 0.3 });
+    ScrollTrigger.create({
+      containerAnimation: tween,
+      trigger: step,
+      start: 'left 70%',
+      end: 'right 30%',
+      onEnter: () => gsap.to(step, { autoAlpha: 1, duration: 0.4 }),
+      onLeaveBack: () => gsap.to(step, { autoAlpha: i === 0 ? 1 : 0.3, duration: 0.4 })
+    });
+  });
+}
+
 /* ── Init ─────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   prepareHeroAnimation();
@@ -978,6 +1018,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousels();
   initMouseParallax();
   initMicrointeractions();
+  initPinSection();
   initPrefetch();
   initLanguageDetect();
 
