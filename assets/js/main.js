@@ -784,14 +784,47 @@ function initSVGAnimations() {
   });
 }
 
-/* ── Marquee duplicate ────────────────────────────────── */
+/* ── Marquee (GSAP dual-track, hover pause) ───────────── */
 function initMarquee() {
-  const track = qs('.marquee-track');
-  if (!track) return;
+  const wrap = qs('.marquee-wrap');
+  if (!wrap) return;
 
-  // Duplicate for seamless loop
-  const clone = track.cloneNode(true);
-  track.parentElement.appendChild(clone);
+  const tracks = qsa('.marquee-track', wrap);
+  if (!tracks.length) return;
+
+  if (tracks.length === 1) {
+    const clone = tracks[0].cloneNode(true);
+    wrap.appendChild(clone);
+  }
+
+  const allTracks = qsa('.marquee-track', wrap);
+  const trackW = allTracks[0].scrollWidth / 2;
+
+  const tweens = [
+    gsap.to(allTracks[0], {
+      x: -trackW,
+      duration: 22,
+      ease: 'none',
+      repeat: -1,
+      modifiers: { x: gsap.utils.unitize(x => parseFloat(x) % trackW) }
+    }),
+    gsap.to(allTracks[1], {
+      x: trackW,
+      duration: 26,
+      ease: 'none',
+      repeat: -1,
+      modifiers: { x: gsap.utils.unitize(x => parseFloat(x) % trackW) }
+    })
+  ];
+
+  if (isReducedMotion()) {
+    tweens.forEach(t => t.pause());
+  }
+
+  wrap.addEventListener('mouseenter', () => tweens.forEach(t => t.pause()));
+  wrap.addEventListener('mouseleave', () => {
+    if (!isReducedMotion()) tweens.forEach(t => t.play());
+  });
 }
 
 /* ── Language auto-detect ─────────────────────────────── */

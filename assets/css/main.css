@@ -1182,12 +1182,14 @@ button {
   overflow: hidden;
   padding: var(--sp-lg) 0;
   background: var(--clr-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .marquee-track {
   display: flex;
   gap: var(--sp-xl);
-  animation: marqueeScroll 20s linear infinite;
   white-space: nowrap;
   width: max-content;
 }
@@ -1208,10 +1210,6 @@ button {
   font-size: 0.75rem;
 }
 
-@keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
 
 /* ─── Page hero (inner pages) ─────────────────────────── */
 .page-hero {
@@ -1823,10 +1821,6 @@ button {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .marquee-track {
-    animation: none;
   }
 
   .hero__scroll-line {
