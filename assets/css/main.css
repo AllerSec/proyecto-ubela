@@ -361,6 +361,10 @@ button {
   background: var(--clr-iron);
 }
 
+.section--tight-top {
+  padding-top: var(--sp-xl);
+}
+
 .section--light {
   background: #242830;
 }
@@ -1583,7 +1587,7 @@ button {
 /* ─── Video Showcase ─────────────────────────────────── */
 .video-showcase {
   background: var(--clr-iron);
-  padding: var(--sp-xl) 0;
+  padding: var(--sp-xl) 0 0;
 }
 
 .video-showcase__wrap {
