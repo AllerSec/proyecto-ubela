@@ -422,16 +422,21 @@ function initParticleCanvas() {
   window.addEventListener('resize', resize);
 
   class Particle {
-    constructor() { this.reset(); }
+    constructor(isSpark = false) {
+      this.isSpark = isSpark;
+      this.reset();
+    }
     reset() {
-      this.x  = Math.random() * W;
-      this.y  = Math.random() * H;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = -Math.random() * 0.6 - 0.2;
-      this.size   = Math.random() * 2 + 0.5;
-      this.alpha  = Math.random() * 0.5 + 0.1;
+      this.x    = Math.random() * W;
+      this.y    = Math.random() * H;
+      this.vx   = (Math.random() - 0.5) * (this.isSpark ? 0.5 : 0.3);
+      this.vy   = -(Math.random() * (this.isSpark ? 1.0 : 0.6)) - 0.2;
+      this.size = this.isSpark
+        ? Math.random() * 3 + 3
+        : Math.random() * 2 + 0.5;
+      this.alpha  = Math.random() * 0.6 + 0.15;
       this.life   = Math.random() * 200 + 100;
-      this.maxLife= this.life;
+      this.maxLife = this.life;
     }
     update() {
       this.x += this.vx;
@@ -442,14 +447,19 @@ function initParticleCanvas() {
     draw() {
       const progress = this.life / this.maxLife;
       ctx.globalAlpha = this.alpha * progress;
-      ctx.fillStyle = progress > 0.5 ? '#e8411e' : '#6b7280';
+      if (this.isSpark) {
+        ctx.fillStyle = progress > 0.4 ? '#3da34d' : '#2d7d3a';
+      } else {
+        ctx.fillStyle = progress > 0.5 ? '#2d7d3a' : '#6b7280';
+      }
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
     }
   }
 
-  for (let i = 0; i < 80; i++) particles.push(new Particle());
+  for (let i = 0; i < 60; i++) particles.push(new Particle(false));
+  for (let i = 0; i < 20; i++) particles.push(new Particle(true));
 
   function animate() {
     ctx.clearRect(0, 0, W, H);
@@ -478,7 +488,7 @@ function initHeroSVGBackground() {
   function drawGear(x, y, r, teeth, rot, alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.strokeStyle = '#e8411e';
+    ctx.strokeStyle = 'rgba(45,125,58,0.18)';
     ctx.lineWidth = 1;
     ctx.translate(x, y);
     ctx.rotate(rot);
@@ -507,7 +517,7 @@ function initHeroSVGBackground() {
   function drawGridLines(alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.strokeStyle = 'rgba(45,125,58,0.06)';
     ctx.lineWidth = 1;
 
     const spacing = 60;
@@ -554,9 +564,73 @@ function initHeroSVGBackground() {
     { xFn: w => w * 0.55, yFn: h => h * 0.2, size: 20 },
   ];
 
+  let scanY = -4;
+  let scanActive = false;
+  let scanTimer = 0;
+  const SCAN_INTERVAL = 480;
+
+  function drawScanLine() {
+    scanTimer++;
+    if (scanTimer >= SCAN_INTERVAL && !scanActive) {
+      scanActive = true;
+      scanY = -4;
+      scanTimer = 0;
+    }
+    if (!scanActive) return;
+
+    scanY += H / 90;
+    if (scanY > H + 4) {
+      scanActive = false;
+      scanY = -4;
+      return;
+    }
+
+    const grad = ctx.createLinearGradient(0, scanY - 12, 0, scanY + 12);
+    grad.addColorStop(0, 'rgba(45,125,58,0)');
+    grad.addColorStop(0.5, 'rgba(45,125,58,0.12)');
+    grad.addColorStop(1, 'rgba(45,125,58,0)');
+    ctx.save();
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, scanY - 12, W, 24);
+    ctx.restore();
+  }
+
+  function drawTargetRings() {
+    const rings = [
+      { xFn: w => w * 0.72, yFn: h => h * 0.4, r: 28 },
+      { xFn: w => w * 0.25, yFn: h => h * 0.55, r: 18 },
+    ];
+    rings.forEach(ring => {
+      const pulse = 0.5 + Math.sin(t * 0.025) * 0.3;
+      ctx.save();
+      ctx.globalAlpha = pulse * 0.25;
+      ctx.strokeStyle = 'rgba(45,125,58,0.8)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.arc(ring.xFn(W), ring.yFn(H), ring.r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.globalAlpha = pulse * 0.5;
+      ctx.fillStyle = 'rgba(45,125,58,0.9)';
+      ctx.beginPath();
+      ctx.arc(ring.xFn(W), ring.yFn(H), 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = pulse * 0.2;
+      ctx.strokeStyle = 'rgba(45,125,58,1)';
+      ctx.lineWidth = 0.6;
+      const x = ring.xFn(W), y = ring.yFn(H);
+      ctx.beginPath();
+      ctx.moveTo(x - ring.r * 1.4, y); ctx.lineTo(x + ring.r * 1.4, y);
+      ctx.moveTo(x, y - ring.r * 1.4); ctx.lineTo(x, y + ring.r * 1.4);
+      ctx.stroke();
+      ctx.restore();
+    });
+  }
+
   function render() {
     ctx.clearRect(0, 0, W, H);
     drawGridLines(1);
+    drawScanLine();
+    drawTargetRings();
 
     gears.forEach(g => {
       drawGear(g.xFn(W), g.yFn(H), g.r, g.teeth,
