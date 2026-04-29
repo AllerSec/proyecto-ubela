@@ -813,6 +813,18 @@ button {
 /* ─── Reveal animations (initial state set by JS only) ── */
 /* No CSS initial state — GSAP sets opacity/transform on init */
 
+.reveal-clip {
+  will-change: clip-path, opacity;
+}
+
+.cards-3d-wrap {
+  perspective: 1200px;
+}
+
+.about-image-wrap img {
+  will-change: clip-path;
+}
+
 /* ─── Hero ───────────────────────────────────────────── */
 .hero {
   position: relative;

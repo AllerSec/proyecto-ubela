@@ -330,6 +330,61 @@ function initScrollAnimations() {
     once: false
   });
 
+  // Títulos de sección: clip-path sweep izquierda → derecha
+  qsa('.section-header .display-2, .section-header .heading-1').forEach(title => {
+    title.classList.remove('reveal');
+    gsap.set(title, { clipPath: 'inset(0 100% 0 0)', autoAlpha: 1 });
+    ScrollTrigger.create({
+      trigger: title,
+      start: 'top 88%',
+      once: true,
+      onEnter: () => {
+        gsap.to(title, {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: 0.85,
+          ease: 'power4.out'
+        });
+      }
+    });
+  });
+
+  // Cards con entrada 3D
+  const sectorCards = qsa('.grid-3 .card');
+  if (sectorCards.length && !isMobile()) {
+    gsap.set(sectorCards, { autoAlpha: 0, x: -30, rotationY: -8, transformPerspective: 1200 });
+    ScrollTrigger.create({
+      trigger: '.grid-3',
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.to(sectorCards, {
+          autoAlpha: 1, x: 0, rotationY: 0,
+          duration: 0.8, ease: 'power3.out', stagger: 0.15
+        });
+      }
+    });
+  }
+
+  // About image: persiana que se abre horizontalmente
+  const aboutImg = qs('.about-image-wrap img');
+  if (aboutImg) {
+    const wrap = aboutImg.closest('.about-image-wrap');
+    if (wrap) wrap.classList.remove('reveal-left');
+    gsap.set(aboutImg, { clipPath: 'inset(0 100% 0 0)' });
+    ScrollTrigger.create({
+      trigger: aboutImg,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.to(aboutImg, {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: 1.0,
+          ease: 'power3.inOut'
+        });
+      }
+    });
+  }
+
   // Counters
   qsa('.stat__number[data-count]').forEach(el => {
     const target = parseInt(el.dataset.count, 10);
@@ -345,6 +400,13 @@ function initScrollAnimations() {
           onUpdate: function () {
             el.textContent = Math.round(this.targets()[0].val)
               + (el.dataset.suffix || '');
+          },
+          onComplete: () => {
+            gsap.fromTo(el,
+              { color: '#3da34d' },
+              { color: el.closest('.stat')?.style.color || 'var(--clr-white)',
+                duration: 0.6, ease: 'power2.out' }
+            );
           }
         });
       }
@@ -354,11 +416,11 @@ function initScrollAnimations() {
   // Services grid stagger
   const serviceItems = qsa('.service-item');
   if (serviceItems.length) {
-    gsap.set(serviceItems, { autoAlpha: 0, y: 50 });
+    gsap.set(serviceItems, { autoAlpha: 0, y: 50, scaleY: 0.92, transformOrigin: 'top center' });
     gsap.to(serviceItems, {
-      autoAlpha: 1, y: 0,
+      autoAlpha: 1, y: 0, scaleY: 1,
       stagger: 0.08, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: '.services-grid', start: 'top 85%' }
+      scrollTrigger: { trigger: '.services-grid', start: 'top 85%', once: true }
     });
   }
 
