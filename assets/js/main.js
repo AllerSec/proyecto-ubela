@@ -164,7 +164,9 @@ function prepareHeroAnimation() {
 
   gsap.set(lines, { autoAlpha: 0, y: '100%' });
   gsap.set(introSelector, { autoAlpha: 0, y: 24 });
-  gsap.set('.hero__logo-wrap', { autoAlpha: 0, scale: 0.85 });
+  gsap.set('.hero__logo-wrap', { autoAlpha: 0, scale: 0.6 });
+  gsap.set('.hero__canvas', { autoAlpha: 0 });
+  gsap.set('.hero__cta .btn', { autoAlpha: 0, y: 24 });
 }
 
 function splitPageTitleLines(title) {
@@ -202,53 +204,45 @@ function preparePageTitleAnimation() {
 function initHeroAnimation() {
   const hero = qs('.hero');
   if (!hero || hero.dataset.heroAnimated === 'true') return;
-
   hero.dataset.heroAnimated = 'true';
 
+  if (isReducedMotion()) {
+    gsap.set(['.hero__canvas', '.hero__eyebrow', '.hero__title .line',
+              '.hero__subtitle', '.hero__cta .btn', '.hero__logo-wrap', '.hero__scroll-hint'],
+      { autoAlpha: 1, y: 0, x: 0, scale: 1, clipPath: 'none' });
+    return;
+  }
+
   const lines = qsa('.hero__title .line');
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-  const tl = gsap.timeline();
+  tl.to('.hero__canvas', { autoAlpha: 1, duration: 0.8, ease: 'power2.out' }, 0);
 
-  tl.to('.hero__eyebrow', {
-    autoAlpha: 1,
-    y: 0,
-    duration: 0.6,
-    ease: 'power3.out'
-  });
+  tl.fromTo('.hero__eyebrow',
+    { autoAlpha: 0, clipPath: 'inset(0 100% 0 0)' },
+    { autoAlpha: 1, clipPath: 'inset(0 0% 0 0)', duration: 0.5, ease: 'power3.out' },
+  0.3);
 
   tl.to(lines, {
     autoAlpha: 1,
     y: 0,
-    duration: 0.8,
-    ease: 'power4.out',
-    stagger: 0.12
-  }, '-=0.25');
+    duration: 0.75,
+    ease: 'expo.out',
+    stagger: 0.2
+  }, 0.6);
 
-  tl.to('.hero__subtitle', {
-    autoAlpha: 1,
-    y: 0,
-    duration: 0.6,
-    ease: 'power3.out'
-  }, '-=0.3');
+  tl.to('.hero__subtitle', { autoAlpha: 1, y: 0, duration: 0.6 }, 1.1);
 
-  tl.to('.hero__cta', {
-    autoAlpha: 1,
-    y: 0,
-    duration: 0.5,
-    ease: 'power3.out'
-  }, '-=0.3');
+  tl.to('.hero__cta .btn', { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.12 }, 1.3);
 
   tl.to('.hero__logo-wrap', {
     autoAlpha: 1,
     scale: 1,
-    duration: 0.9,
-    ease: 'power3.out'
-  }, '-=0.6');
+    duration: 1.1,
+    ease: 'back.out(1.4)'
+  }, 0.4);
 
-  tl.to('.hero__scroll-hint', {
-    autoAlpha: 1,
-    duration: 0.5
-  }, '-=0.2');
+  tl.to('.hero__scroll-hint', { autoAlpha: 1, duration: 0.5 }, 1.6);
 }
 
 let heroAnimationTimer;
