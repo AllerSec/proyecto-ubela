@@ -673,7 +673,7 @@ function initHeroSVGBackground() {
   function drawCrosshair(x, y, size, alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.strokeStyle = 'rgba(232,65,30,0.5)';
+    ctx.strokeStyle = 'rgba(45,125,58,0.5)';
     ctx.lineWidth = 0.5;
     ctx.beginPath();
     ctx.moveTo(x - size, y);
