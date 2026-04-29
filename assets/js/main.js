@@ -375,9 +375,8 @@ function initScrollAnimations() {
     // Cards con entrada 3D (desktop only)
     const sectorCards = qsa('.grid-3 .card');
     if (sectorCards.length) {
-      const rotY = isDesktop ? -8 : 0;
       if (isDesktop) {
-        gsap.set(sectorCards, { autoAlpha: 0, x: -30, rotationY: rotY, transformPerspective: 1200 });
+        gsap.set(sectorCards, { autoAlpha: 0, x: -30, rotationY: -8, transformPerspective: 1200 });
         ScrollTrigger.create({
           trigger: '.grid-3',
           start: 'top 85%',
