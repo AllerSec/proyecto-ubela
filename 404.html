@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO: noindex -->
+  <title>404 — Página no encontrada | UBELA S.L.</title>
+  <meta name="description" content="La página que busca no existe. Vuelva al inicio de UBELA S.L." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NBVPJV6G');</script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <style>
+    /* 404 canvas fills the section, positioned absolute */
+    .not-found {
+      position: relative;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .not-found__number {
+      /* GSAP will animate this */
+      will-change: transform;
+    }
+
+    .not-found__content .eyebrow {
+      justify-content: center;
+    }
+
+    .not-found__content .eyebrow::before {
+      display: none;
+    }
+
+    .not-found__content .eyebrow::after {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--clr-accent);
+      flex-shrink: 0;
+    }
+
+    .not-found__actions {
+      display: flex;
+      gap: var(--sp-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: var(--sp-xl);
+    }
+
+    .not-found__body {
+      font-family: var(--font-condensed);
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--clr-slate);
+      margin-top: var(--sp-md);
+    }
+
+    /* Ensure nav sits above canvas */
+    .nav {
+      z-index: 200;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBVPJV6G"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <!-- Custom cursor -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Navegación principal">
+    <a href="/index.html" class="nav__logo" aria-label="UBELA S.L."><img src="/assets/images/logo.png" alt="UBELA S.L." class="nav__logo-img" width="120" height="55" /></a>
+
+    <ul class="nav__menu" role="list">
+      <li><a href="/index.html" class="nav__link" data-page="index.html">Inicio</a></li>
+      <li><a href="/servicios.html" class="nav__link" data-page="servicios.html">Servicios</a></li>
+      <li><a href="/sobre-nosotros.html" class="nav__link" data-page="sobre-nosotros.html">Nosotros</a></li>
+      <li><a href="/contacto.html" class="nav__link" data-page="contacto.html">Contacto</a></li>
+      <li class="nav__lang" role="list" aria-label="Selector de idioma">
+        <a href="/index.html" class="nav__lang-btn active" aria-label="Español" aria-current="true">ES</a>
+        <a href="/en/" class="nav__lang-btn" aria-label="English">EN</a>
+        <a href="/eu/" class="nav__lang-btn" aria-label="Euskara">EU</a>
+      </li>
+    </ul>
+
+    <button class="nav__hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-overlay">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile overlay -->
+  <div class="nav__overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Menú móvil">
+    <ul role="list">
+      <li><a href="/index.html" class="nav__link" data-page="index.html">Inicio</a></li>
+      <li><a href="/servicios.html" class="nav__link" data-page="servicios.html">Servicios</a></li>
+      <li><a href="/sobre-nosotros.html" class="nav__link" data-page="sobre-nosotros.html">Nosotros</a></li>
+      <li><a href="/contacto.html" class="nav__link" data-page="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="nav__lang" aria-label="Selector de idioma">
+      <a href="/index.html" class="nav__lang-btn active" aria-label="Español">ES</a>
+      <a href="/en/" class="nav__lang-btn" aria-label="English">EN</a>
+      <a href="/eu/" class="nav__lang-btn" aria-label="Euskara">EU</a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- 404 Section -->
+    <section class="not-found" aria-labelledby="not-found-heading">
+
+      <!-- Animated canvas background (gears from main.js) -->
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+      <!-- Giant 404 number behind content -->
+      <div class="not-found__number" aria-hidden="true">404</div>
+
+      <!-- Foreground content -->
+      <div class="not-found__content" id="not-found-content">
+        <p class="eyebrow" id="not-found-eyebrow" style="opacity: 0;">Error 404</p>
+        <h1 id="not-found-heading" class="display-2" style="margin-top: 1rem; opacity: 0;">
+          PÁGINA NO<br>ENCONTRADA
+        </h1>
+        <p class="not-found__body" id="not-found-body" style="opacity: 0;">
+          La pieza que buscas no existe en nuestro taller.
+        </p>
+        <div class="not-found__actions" id="not-found-actions" style="opacity: 0;">
+          <a href="/index.html" class="btn btn--primary">
+            Volver al Inicio
+            <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="/servicios.html" class="btn btn--outline">
+            Ver Servicios
+            <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+
+        <!-- Brand -->
+        <div>
+          <p class="footer__logo"><img src="/assets/images/logo.png" alt="UBELA S.L." class="footer__logo-img" width="110" height="50" /></p>
+          <p class="footer__tagline">Fabricación industrial de precisión en Navarra. Arranque de viruta para los sectores más exigentes desde 1994.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div>
+          <p class="footer__heading">Navegación</p>
+          <ul class="footer__links" role="list">
+            <li><a href="/index.html">Inicio</a></li>
+            <li><a href="/servicios.html">Servicios</a></li>
+            <li><a href="/sobre-nosotros.html">Nosotros</a></li>
+            <li><a href="/contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+
+        <!-- Services -->
+        <div>
+          <p class="footer__heading">Servicios</p>
+          <ul class="footer__links" role="list">
+            <li><a href="/servicios.html">Torneado CNC</a></li>
+            <li><a href="/servicios.html">Fresado CNC</a></li>
+            <li><a href="/servicios.html">Rectificado</a></li>
+            <li><a href="/servicios.html">Control de calidad</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <p class="footer__heading">Contacto</p>
+          <div class="footer__contact-item">
+            <svg class="footer__contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            <address class="footer__contact-text" style="font-style: normal;">
+              Calle Zalain Industrialdea, 9<br>31780 Bera, Navarra
+            </address>
+          </div>
+          <div class="footer__contact-item">
+            <svg class="footer__contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+            </svg>
+            <a href="tel:+34948631167" class="footer__contact-text">+34 948 63 11 67</a>
+          </div>
+          <div class="footer__contact-item">
+            <svg class="footer__contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/>
+            </svg>
+            <a href="mailto:juanma@ubela.net" class="footer__contact-text">juanma@ubela.net</a>
+          </div>
+        </div>
+
+      </div><!-- /.footer__grid -->
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; <span id="footer-year">2025</span> UBELA S.L. Todos los derechos reservados.
+        </p>
+        <nav class="footer__legal" aria-label="Legal">
+          <a href="/aviso-legal.html">Aviso legal</a>
+          <a href="/privacidad.html">Privacidad</a>
+          <a href="/cookies.html">Cookies</a>
+        </nav>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- main.js first (handles cursor, nav, canvas) then 404 animation -->
+  <script defer>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    /* 404 GSAP animations — run after GSAP + main.js load */
+    window.addEventListener('load', function () {
+      if (typeof gsap === 'undefined') return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const number  = document.querySelector('.not-found__number');
+      const eyebrow = document.getElementById('not-found-eyebrow');
+      const heading = document.getElementById('not-found-heading');
+      const body    = document.getElementById('not-found-body');
+      const actions = document.getElementById('not-found-actions');
+
+      if (prefersReduced) {
+        [number, eyebrow, heading, body, actions].forEach(el => {
+          if (el) gsap.set(el, { opacity: 1, y: 0 });
+        });
+        return;
+      }
+
+      /* Gentle bounce on the 404 number */
+      gsap.to(number, {
+        y: -18,
+        duration: 2.4,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+      });
+
+      /* Staggered reveal of content */
+      const tl = gsap.timeline({ delay: 0.2 });
+
+      tl.to(eyebrow, {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+        ease: 'power3.out'
+      });
+
+      tl.to(heading, {
+        opacity: 1,
+        y: 0,
+        duration: 0.65,
+        ease: 'power3.out'
+      }, '-=0.25');
+
+      tl.to(body, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power3.out'
+      }, '-=0.25');
+
+      tl.to(actions, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power3.out'
+      }, '-=0.2');
+    });
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>
