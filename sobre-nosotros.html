@@ -87,13 +87,12 @@
       <li><a href="/servicios.html"        class="nav__link" data-page="servicios.html">Servicios</a></li>
       <li><a href="/sobre-nosotros.html"   class="nav__link active" data-page="sobre-nosotros.html">Nosotros</a></li>
       <li><a href="/contacto.html"         class="nav__link" data-page="contacto.html">Contacto</a></li>
+      <li class="nav__lang" role="list" aria-label="Selector de idioma">
+        <a href="/sobre-nosotros.html" class="nav__lang-btn active" aria-label="Español" aria-current="true">ES</a>
+        <a href="/en/about.html" class="nav__lang-btn" aria-label="English">EN</a>
+        <a href="/eu/gu-buruz.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
+      </li>
     </ul>
-
-    <div class="nav__lang" aria-label="Seleccionar idioma">
-      <button class="nav__lang-btn active" aria-label="Español" aria-current="true">ES</button>
-      <button class="nav__lang-btn" aria-label="English" onclick="location.href='/en/sobre-nosotros.html'">EN</button>
-      <button class="nav__lang-btn" aria-label="Euskara" onclick="location.href='/eu/guri-buruz.html'">EU</button>
-    </div>
 
     <button class="nav__hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav">
       <span></span><span></span><span></span>
@@ -101,15 +100,17 @@
   </nav>
 
   <!-- Mobile overlay -->
-  <div class="nav__overlay" id="mobile-nav" role="dialog" aria-label="Menú móvil">
-    <a href="/index.html"          class="nav__link" data-page="index.html">Inicio</a>
-    <a href="/servicios.html"      class="nav__link" data-page="servicios.html">Servicios</a>
-    <a href="/sobre-nosotros.html" class="nav__link active" data-page="sobre-nosotros.html">Nosotros</a>
-    <a href="/contacto.html"       class="nav__link" data-page="contacto.html">Contacto</a>
-    <div class="nav__lang">
-      <button class="nav__lang-btn active">ES</button>
-      <button class="nav__lang-btn" onclick="location.href='/en/sobre-nosotros.html'">EN</button>
-      <button class="nav__lang-btn" onclick="location.href='/eu/guri-buruz.html'">EU</button>
+  <div class="nav__overlay" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Menú móvil">
+    <ul role="list">
+      <li><a href="/index.html"          class="nav__link" data-page="index.html">Inicio</a></li>
+      <li><a href="/servicios.html"      class="nav__link" data-page="servicios.html">Servicios</a></li>
+      <li><a href="/sobre-nosotros.html" class="nav__link active" data-page="sobre-nosotros.html">Nosotros</a></li>
+      <li><a href="/contacto.html"       class="nav__link" data-page="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="nav__lang" aria-label="Selector de idioma">
+      <a href="/sobre-nosotros.html" class="nav__lang-btn active" aria-label="Español">ES</a>
+      <a href="/en/about.html" class="nav__lang-btn" aria-label="English">EN</a>
+      <a href="/eu/gu-buruz.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
     </div>
   </div>
 

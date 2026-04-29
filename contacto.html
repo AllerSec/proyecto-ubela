@@ -89,29 +89,30 @@
       <li><a href="/servicios.html" class="nav__link" data-page="servicios.html">Servicios</a></li>
       <li><a href="/sobre-nosotros.html" class="nav__link" data-page="sobre-nosotros.html">Nosotros</a></li>
       <li><a href="/contacto.html" class="nav__link active" data-page="contacto.html">Contacto</a></li>
+      <li class="nav__lang" role="list" aria-label="Selector de idioma">
+        <a href="/contacto.html" class="nav__lang-btn active" aria-label="Español" aria-current="true">ES</a>
+        <a href="/en/contact.html" class="nav__lang-btn" aria-label="English">EN</a>
+        <a href="/eu/kontaktua.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
+      </li>
     </ul>
 
-    <div class="nav__lang" aria-label="Selector de idioma">
-      <button class="nav__lang-btn active" onclick="window.location='/'">ES</button>
-      <button class="nav__lang-btn" onclick="window.location='/en/contacto.html'">EN</button>
-      <button class="nav__lang-btn" onclick="window.location='/eu/contacto.html'">EU</button>
-    </div>
-
-    <button class="nav__hamburger" aria-label="Abrir menú" aria-expanded="false">
+    <button class="nav__hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-overlay">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
   <!-- Mobile overlay -->
-  <div class="nav__overlay" role="dialog" aria-modal="true" aria-label="Menú móvil">
-    <a href="/index.html" class="nav__link" data-page="index.html">Inicio</a>
-    <a href="/servicios.html" class="nav__link" data-page="servicios.html">Servicios</a>
-    <a href="/sobre-nosotros.html" class="nav__link" data-page="sobre-nosotros.html">Nosotros</a>
-    <a href="/contacto.html" class="nav__link active" data-page="contacto.html">Contacto</a>
-    <div class="nav__lang">
-      <button class="nav__lang-btn active">ES</button>
-      <button class="nav__lang-btn" onclick="window.location='/en/contacto.html'">EN</button>
-      <button class="nav__lang-btn" onclick="window.location='/eu/contacto.html'">EU</button>
+  <div class="nav__overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Menú móvil">
+    <ul role="list">
+      <li><a href="/index.html" class="nav__link" data-page="index.html">Inicio</a></li>
+      <li><a href="/servicios.html" class="nav__link" data-page="servicios.html">Servicios</a></li>
+      <li><a href="/sobre-nosotros.html" class="nav__link" data-page="sobre-nosotros.html">Nosotros</a></li>
+      <li><a href="/contacto.html" class="nav__link active" data-page="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="nav__lang" aria-label="Selector de idioma">
+      <a href="/contacto.html" class="nav__lang-btn active" aria-label="Español">ES</a>
+      <a href="/en/contact.html" class="nav__lang-btn" aria-label="English">EN</a>
+      <a href="/eu/kontaktua.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
     </div>
   </div>
 
