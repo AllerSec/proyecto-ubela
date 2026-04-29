@@ -526,24 +526,29 @@ function initParticleCanvas() {
   for (let i = 0; i < 20; i++) particles.push(new Particle(true));
 
   let isVisible = true;
+  let rafId = null;
 
   const observer = new IntersectionObserver(
     (entries) => {
       isVisible = entries[0].isIntersecting;
-      if (isVisible) animate();
+      if (!isVisible) {
+        cancelAnimationFrame(rafId);
+      } else {
+        rafId = requestAnimationFrame(animate);
+      }
     },
     { threshold: 0 }
   );
   observer.observe(canvas);
 
   function animate() {
-    if (!isVisible) return;
+    if (!isVisible) return; // safety net
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => { p.update(); p.draw(); });
     ctx.globalAlpha = 1;
-    requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
   }
-  animate();
+  rafId = requestAnimationFrame(animate);
 }
 
 /* ── Hero Animated SVG Background (industrial gears/lines) */
@@ -703,18 +708,23 @@ function initHeroSVGBackground() {
   }
 
   let isVisible = true;
+  let rafId = null;
 
   const observer = new IntersectionObserver(
     (entries) => {
       isVisible = entries[0].isIntersecting;
-      if (isVisible) render();
+      if (!isVisible) {
+        cancelAnimationFrame(rafId);
+      } else {
+        rafId = requestAnimationFrame(render);
+      }
     },
     { threshold: 0 }
   );
   observer.observe(canvas);
 
   function render() {
-    if (!isVisible) return;
+    if (!isVisible) return; // safety net
     ctx.clearRect(0, 0, W, H);
     drawGridLines(1);
     drawScanLine();
@@ -731,9 +741,9 @@ function initHeroSVGBackground() {
     });
 
     t++;
-    requestAnimationFrame(render);
+    rafId = requestAnimationFrame(render);
   }
-  render();
+  rafId = requestAnimationFrame(render);
 }
 
 /* ── Carousel ─────────────────────────────────────────── */
