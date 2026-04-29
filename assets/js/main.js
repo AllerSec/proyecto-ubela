@@ -689,7 +689,10 @@ function initLanguageDetect() {
 
   // Only redirect if we're on root and browser is English
   if (lang2 === 'en' && currentLang !== 'en' && !window.location.pathname.includes('/en/')) {
-    const target = window.location.pathname.replace(/^\/(eu\/)?/, '/en/');
+    const path = window.location.pathname;
+    // Detect base path (e.g. /proyecto-ubela/ on GitHub Pages, or / on production)
+    const basePath = path.replace(/\/(eu\/)?[^/]*$/, '/');
+    const target = basePath + 'en/';
     window.location.replace(target);
   }
 }
