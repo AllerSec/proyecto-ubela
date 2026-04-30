@@ -2,127 +2,219 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- Spanish (default) -->
+  <!-- ── Spanish (default) ─────────────────────────────── -->
   <url>
-    <loc>https://ubela.es/</loc>
-    <lastmod>2025-04-28</lastmod>
+    <loc>https://www.ubela.net/</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/"/>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ubela.net/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ubela.net/en/"/>
+    <xhtml:link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ubela.net/"/>
   </url>
 
   <url>
-    <loc>https://ubela.es/servicios.html</loc>
-    <lastmod>2025-04-28</lastmod>
+    <loc>https://www.ubela.net/servicios.html</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/servicios.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/servicios.html"/>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/servicios.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ubela.net/servicios.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ubela.net/en/services.html"/>
+    <xhtml:link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/zerbitzuak.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/services.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ubela.net/servicios.html"/>
   </url>
 
   <url>
-    <loc>https://ubela.es/sobre-nosotros.html</loc>
-    <lastmod>2025-04-28</lastmod>
+    <loc>https://www.ubela.net/sobre-nosotros.html</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/sobre-nosotros.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/sobre-nosotros.html"/>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/sobre-nosotros.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ubela.net/sobre-nosotros.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ubela.net/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/gu-buruz.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/a-propos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ubela.net/sobre-nosotros.html"/>
   </url>
 
   <url>
-    <loc>https://ubela.es/contacto.html</loc>
-    <lastmod>2025-04-28</lastmod>
+    <loc>https://www.ubela.net/contacto.html</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/contacto.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/contacto.html"/>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/contacto.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ubela.net/contacto.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ubela.net/en/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/kontaktua.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ubela.net/contacto.html"/>
   </url>
 
-  <!-- English -->
+  <!-- Legal pages (ES) -->
   <url>
-    <loc>https://ubela.es/en/</loc>
-    <lastmod>2025-04-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/"/>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/"/>
-  </url>
-
-  <url>
-    <loc>https://ubela.es/en/servicios.html</loc>
-    <lastmod>2025-04-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/servicios.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/servicios.html"/>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/servicios.html"/>
+    <loc>https://www.ubela.net/aviso-legal.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ubela.net/aviso-legal.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ubela.net/en/legal-notice.html"/>
+    <xhtml:link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/lege-oharra.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/mentions-legales.html"/>
   </url>
 
   <url>
-    <loc>https://ubela.es/en/sobre-nosotros.html</loc>
-    <lastmod>2025-04-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/sobre-nosotros.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/sobre-nosotros.html"/>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/sobre-nosotros.html"/>
+    <loc>https://www.ubela.net/privacidad.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ubela.net/privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ubela.net/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/pribatutasuna.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/confidentialite.html"/>
   </url>
 
   <url>
-    <loc>https://ubela.es/en/contacto.html</loc>
-    <lastmod>2025-04-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/contacto.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/contacto.html"/>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/contacto.html"/>
+    <loc>https://www.ubela.net/cookies.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ubela.net/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ubela.net/en/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/cookieak.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/cookies.html"/>
   </url>
 
-  <!-- Basque -->
+  <!-- ── English ───────────────────────────────────────── -->
   <url>
-    <loc>https://ubela.es/eu/</loc>
-    <lastmod>2025-04-28</lastmod>
+    <loc>https://www.ubela.net/en/</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/"/>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/en/services.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/en/about.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/en/contact.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/en/legal-notice.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/en/privacy.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/en/cookies.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
 
+  <!-- ── Basque ────────────────────────────────────────── -->
   <url>
-    <loc>https://ubela.es/eu/servicios.html</loc>
-    <lastmod>2025-04-28</lastmod>
+    <loc>https://www.ubela.net/eu/</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/servicios.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/servicios.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/servicios.html"/>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/eu/zerbitzuak.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/eu/gu-buruz.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/eu/kontaktua.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/eu/lege-oharra.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/eu/pribatutasuna.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/eu/cookieak.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
 
+  <!-- ── French ────────────────────────────────────────── -->
   <url>
-    <loc>https://ubela.es/eu/sobre-nosotros.html</loc>
-    <lastmod>2025-04-28</lastmod>
+    <loc>https://www.ubela.net/fr/</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/sobre-nosotros.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/sobre-nosotros.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/sobre-nosotros.html"/>
   </url>
-
   <url>
-    <loc>https://ubela.es/eu/contacto.html</loc>
-    <lastmod>2025-04-28</lastmod>
+    <loc>https://www.ubela.net/fr/services.html</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="eu" href="https://ubela.es/eu/contacto.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ubela.es/contacto.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ubela.es/en/contacto.html"/>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/fr/a-propos.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/fr/contact.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/fr/mentions-legales.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/fr/confidentialite.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.ubela.net/fr/cookies.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
 
 </urlset>

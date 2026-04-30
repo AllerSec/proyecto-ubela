@@ -97,6 +97,7 @@ function revealPage() {
     scheduleHeroAnimation();
     schedulePageTitleAnimation();
     initScrollAnimations();
+    startBackgroundCanvases();
     return;
   }
 
@@ -154,6 +155,14 @@ function initNav() {
   }
 }
 
+/* ── Deferred canvas starters (set in DOMContentLoaded) ─ */
+let startParticleCanvas = null;
+let startHeroSVGBackground = null;
+function startBackgroundCanvases() {
+  if (startParticleCanvas)    startParticleCanvas();
+  if (startHeroSVGBackground) startHeroSVGBackground();
+}
+
 /* ── Hero animation ───────────────────────────────────── */
 function prepareHeroAnimation() {
   const hero = qs('.hero');
@@ -162,11 +171,9 @@ function prepareHeroAnimation() {
   const lines = qsa('.hero__title .line');
   const introSelector = '.hero__eyebrow, .hero__subtitle, .hero__cta, .hero__scroll-hint';
 
-  gsap.set(lines, { autoAlpha: 0, y: '100%' });
-  gsap.set(introSelector, { autoAlpha: 0, y: 24 });
-  gsap.set('.hero__logo-wrap', { autoAlpha: 0, scale: 0.6 });
-  gsap.set('.hero__canvas', { autoAlpha: 0 });
-  gsap.set('.hero__cta .btn', { autoAlpha: 0, y: 24 });
+  gsap.set(lines, { autoAlpha: 0, yPercent: 100, force3D: true });
+  gsap.set(introSelector, { autoAlpha: 0, y: 24, force3D: true });
+  gsap.set('.hero__logo-wrap', { autoAlpha: 0, scale: 0.85, force3D: true });
 }
 
 function splitPageTitleLines(title) {
@@ -193,56 +200,65 @@ function preparePageTitleAnimation() {
     splitPageTitleLines(title);
   });
 
-  gsap.set('.page-title-line-inner', { autoAlpha: 0, y: '100%' });
+  gsap.set('.page-title-line-inner', { autoAlpha: 0, yPercent: 100, force3D: true });
 
   qsa('.page-hero .body-lg').forEach(subtitle => {
     subtitle.classList.remove('reveal');
   });
-  gsap.set('.page-hero .body-lg', { autoAlpha: 0, y: 24 });
+  gsap.set('.page-hero .body-lg', { autoAlpha: 0, y: 24, force3D: true });
 }
 
 function initHeroAnimation() {
   const hero = qs('.hero');
   if (!hero || hero.dataset.heroAnimated === 'true') return;
+
   hero.dataset.heroAnimated = 'true';
 
-  if (isReducedMotion()) {
-    gsap.set(['.hero__canvas', '.hero__eyebrow', '.hero__title .line',
-              '.hero__subtitle', '.hero__cta .btn', '.hero__logo-wrap', '.hero__scroll-hint'],
-      { autoAlpha: 1, y: 0, x: 0, scale: 1, clipPath: 'none' });
-    return;
-  }
-
   const lines = qsa('.hero__title .line');
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-  tl.to('.hero__canvas', { autoAlpha: 1, duration: 0.8, ease: 'power2.out' }, 0);
+  const tl = gsap.timeline({ onComplete: startBackgroundCanvases });
 
-  tl.fromTo('.hero__eyebrow',
-    { autoAlpha: 0, clipPath: 'inset(0 100% 0 0)' },
-    { autoAlpha: 1, clipPath: 'inset(0 0% 0 0)', duration: 0.5, ease: 'power3.out' },
-  0.3);
+  tl.to('.hero__eyebrow', {
+    autoAlpha: 1,
+    y: 0,
+    duration: 0.6,
+    ease: 'power3.out'
+  });
 
   tl.to(lines, {
     autoAlpha: 1,
+    yPercent: 0,
+    duration: 0.8,
+    ease: 'power4.out',
+    stagger: 0.12,
+    force3D: true
+  }, '-=0.25');
+
+  tl.to('.hero__subtitle', {
+    autoAlpha: 1,
     y: 0,
-    duration: 0.75,
-    ease: 'expo.out',
-    stagger: 0.2
-  }, 0.6);
+    duration: 0.6,
+    ease: 'power3.out'
+  }, '-=0.3');
 
-  tl.to('.hero__subtitle', { autoAlpha: 1, y: 0, duration: 0.6 }, 1.1);
-
-  tl.to('.hero__cta .btn', { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.12 }, 1.3);
+  tl.to('.hero__cta', {
+    autoAlpha: 1,
+    y: 0,
+    duration: 0.5,
+    ease: 'power3.out'
+  }, '-=0.3');
 
   tl.to('.hero__logo-wrap', {
     autoAlpha: 1,
     scale: 1,
-    duration: 1.1,
-    ease: 'back.out(1.4)'
-  }, 0.4);
+    duration: 0.9,
+    ease: 'power3.out'
+  }, '-=0.6');
 
-  tl.to('.hero__scroll-hint', { autoAlpha: 1, duration: 0.5 }, 1.6);
+  tl.to('.hero__scroll-hint', {
+    autoAlpha: 1,
+    duration: 0.5
+  }, '-=0.2');
 }
 
 let heroAnimationTimer;
@@ -260,13 +276,14 @@ function initPageTitleAnimation() {
     if (pageHero.dataset.titleAnimated === 'true') return;
     pageHero.dataset.titleAnimated = 'true';
 
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({ onComplete: startBackgroundCanvases });
     tl.to(qsa('.page-title-line-inner', pageHero), {
       autoAlpha: 1,
-      y: 0,
+      yPercent: 0,
       duration: 0.8,
       ease: 'power4.out',
-      stagger: 0.12
+      stagger: 0.12,
+      force3D: true
     });
 
     tl.to(qsa('.body-lg', pageHero), {
@@ -293,231 +310,108 @@ function initScrollAnimations() {
     return;
   }
 
-  const mm = gsap.matchMedia();
+  // Set initial hidden state via JS (not CSS) so content is visible without JS
+  gsap.set('.reveal',       { autoAlpha: 0, y: 40 });
+  gsap.set('.reveal-left',  { autoAlpha: 0, x: -40 });
+  gsap.set('.reveal-right', { autoAlpha: 0, x: 40 });
 
-  mm.add({
-    isDesktop: '(min-width: 769px)',
-    isMobile:  '(max-width: 768px)'
-  }, (context) => {
-    const { isDesktop } = context.conditions;
+  // Animate reveal elements as they enter viewport
+  ScrollTrigger.batch('.reveal', {
+    onEnter: batch => gsap.to(batch, {
+      autoAlpha: 1, y: 0,
+      stagger: 0.1, duration: 0.7, ease: 'power3.out'
+    }),
+    onEnterBack: batch => gsap.to(batch, {
+      autoAlpha: 1, y: 0,
+      stagger: 0.05, duration: 0.4, ease: 'power2.out'
+    }),
+    start: 'top 92%',
+    once: false
+  });
 
-    const revealY    = isDesktop ? 40  : 20;
-    const revealDur  = isDesktop ? 0.7 : 0.5;
-    const revealDurB = isDesktop ? 0.4 : 0.3;
+  ScrollTrigger.batch('.reveal-left', {
+    onEnter: batch => gsap.to(batch, {
+      autoAlpha: 1, x: 0,
+      stagger: 0.1, duration: 0.7, ease: 'power3.out'
+    }),
+    start: 'top 92%',
+    once: false
+  });
 
-    // Set initial hidden state via JS (not CSS) so content is visible without JS
-    gsap.set('.reveal',       { autoAlpha: 0, y: revealY });
-    gsap.set('.reveal-left',  { autoAlpha: 0, x: -40 });
-    gsap.set('.reveal-right', { autoAlpha: 0, x: 40 });
+  ScrollTrigger.batch('.reveal-right', {
+    onEnter: batch => gsap.to(batch, {
+      autoAlpha: 1, x: 0,
+      stagger: 0.1, duration: 0.7, ease: 'power3.out'
+    }),
+    start: 'top 92%',
+    once: false
+  });
 
-    // Animate reveal elements as they enter viewport
-    ScrollTrigger.batch('.reveal', {
-      onEnter: batch => gsap.to(batch, {
-        autoAlpha: 1, y: 0,
-        stagger: 0.1, duration: revealDur, ease: 'power3.out'
-      }),
-      onEnterBack: batch => gsap.to(batch, {
-        autoAlpha: 1, y: 0,
-        stagger: 0.05, duration: revealDurB, ease: 'power2.out'
-      }),
-      start: 'top 92%',
-      once: false
-    });
-
-    ScrollTrigger.batch('.reveal-left', {
-      onEnter: batch => gsap.to(batch, {
-        autoAlpha: 1, x: 0,
-        stagger: 0.1, duration: revealDur, ease: 'power3.out'
-      }),
-      start: 'top 92%',
-      once: false
-    });
-
-    ScrollTrigger.batch('.reveal-right', {
-      onEnter: batch => gsap.to(batch, {
-        autoAlpha: 1, x: 0,
-        stagger: 0.1, duration: revealDur, ease: 'power3.out'
-      }),
-      start: 'top 92%',
-      once: false
-    });
-
-    // Títulos de sección: clip-path sweep (desktop) or simple fade (mobile)
-    qsa('.section-header .display-2, .section-header .heading-1').forEach(title => {
-      title.classList.remove('reveal');
-      if (isDesktop) {
-        gsap.set(title, { clipPath: 'inset(0 100% 0 0)', autoAlpha: 1 });
-        ScrollTrigger.create({
-          trigger: title,
-          start: 'top 88%',
-          once: true,
-          onEnter: () => {
-            gsap.to(title, {
-              clipPath: 'inset(0 0% 0 0)',
-              duration: 0.85,
-              ease: 'power4.out'
-            });
-          }
-        });
-      } else {
-        gsap.set(title, { autoAlpha: 0 });
-        ScrollTrigger.create({
-          trigger: title,
-          start: 'top 88%',
-          once: true,
-          onEnter: () => {
-            gsap.to(title, { autoAlpha: 1, duration: 0.5, ease: 'power3.out' });
+  // Counters
+  qsa('.stat__number[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count, 10);
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 90%',
+      once: true,
+      onEnter: () => {
+        gsap.to({ val: 0 }, {
+          val: target,
+          duration: 1.6,
+          ease: 'power2.out',
+          onUpdate: function () {
+            el.textContent = Math.round(this.targets()[0].val)
+              + (el.dataset.suffix || '');
           }
         });
       }
     });
+  });
 
-    // Cards con entrada 3D (desktop only)
-    const sectorCards = qsa('.grid-3 .card');
-    if (sectorCards.length) {
-      if (isDesktop) {
-        gsap.set(sectorCards, { autoAlpha: 0, x: -30, rotationY: -8, transformPerspective: 1200 });
-        ScrollTrigger.create({
-          trigger: '.grid-3',
-          start: 'top 85%',
-          once: true,
-          onEnter: () => {
-            gsap.to(sectorCards, {
-              autoAlpha: 1, x: 0, rotationY: 0,
-              duration: 0.8, ease: 'power3.out', stagger: 0.15
-            });
-          }
-        });
-      } else {
-        gsap.set(sectorCards, { autoAlpha: 0, y: 20 });
-        ScrollTrigger.create({
-          trigger: '.grid-3',
-          start: 'top 88%',
-          once: true,
-          onEnter: () => {
-            gsap.to(sectorCards, {
-              autoAlpha: 1, y: 0,
-              duration: 0.5, ease: 'power3.out', stagger: 0.1
-            });
-          }
-        });
-      }
-    }
-
-    // About image: persiana (desktop) or simple fade (mobile)
-    const aboutImg = qs('.about-image-wrap img');
-    if (aboutImg) {
-      const wrap = aboutImg.closest('.about-image-wrap');
-      if (wrap) wrap.classList.remove('reveal-left');
-      if (isDesktop) {
-        gsap.set(aboutImg, { clipPath: 'inset(0 100% 0 0)' });
-        ScrollTrigger.create({
-          trigger: aboutImg,
-          start: 'top 85%',
-          once: true,
-          onEnter: () => {
-            gsap.to(aboutImg, {
-              clipPath: 'inset(0 0% 0 0)',
-              duration: 1.0,
-              ease: 'power3.inOut'
-            });
-          }
-        });
-      } else {
-        gsap.set(aboutImg, { autoAlpha: 0 });
-        ScrollTrigger.create({
-          trigger: aboutImg,
-          start: 'top 88%',
-          once: true,
-          onEnter: () => {
-            gsap.to(aboutImg, { autoAlpha: 1, duration: 0.5, ease: 'power3.out' });
-          }
-        });
-      }
-    }
-
-    // Counters
-    qsa('.stat__number[data-count]').forEach(el => {
-      const target = parseInt(el.dataset.count, 10);
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 90%',
-        once: true,
-        onEnter: () => {
-          gsap.to({ val: 0 }, {
-            val: target,
-            duration: 1.6,
-            ease: 'power2.out',
-            onUpdate: function () {
-              el.textContent = Math.round(this.targets()[0].val)
-                + (el.dataset.suffix || '');
-            },
-            onComplete: () => {
-              gsap.fromTo(el,
-                { color: '#3da34d' },
-                { color: el.closest('.stat')?.style.color || 'var(--clr-white)',
-                  duration: 0.6, ease: 'power2.out' }
-              );
-            }
-          });
-        }
-      });
+  // Services grid stagger
+  const serviceItems = qsa('.service-item');
+  if (serviceItems.length) {
+    gsap.set(serviceItems, { autoAlpha: 0, y: 50 });
+    gsap.to(serviceItems, {
+      autoAlpha: 1, y: 0,
+      stagger: 0.08, duration: 0.7, ease: 'power3.out',
+      scrollTrigger: { trigger: '.services-grid', start: 'top 85%' }
     });
+  }
 
-    // Services grid stagger
-    const serviceItems = qsa('.service-item');
-    if (serviceItems.length) {
-      const sY = isDesktop ? 50 : 20;
-      gsap.set(serviceItems, { autoAlpha: 0, y: sY, scaleY: isDesktop ? 0.92 : 1, transformOrigin: 'top center' });
-      gsap.to(serviceItems, {
-        autoAlpha: 1, y: 0, scaleY: 1,
-        stagger: 0.08, duration: revealDur, ease: 'power3.out',
-        scrollTrigger: { trigger: '.services-grid', start: 'top 85%', once: true }
-      });
-    }
-
-    // Parallax sections
-    qsa('[data-parallax-section]').forEach(el => {
-      gsap.to(el, {
-        y: () => el.dataset.parallaxSection || -60,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: el, start: 'top bottom', end: 'bottom top', scrub: true
-        }
-      });
+  // Parallax sections
+  qsa('[data-parallax-section]').forEach(el => {
+    gsap.to(el, {
+      y: () => el.dataset.parallaxSection || -60,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: el, start: 'top bottom', end: 'bottom top', scrub: true
+      }
     });
   });
 }
 
 /* ── Mouse Parallax ───────────────────────────────────── */
 function initMouseParallax() {
-  if (!window.matchMedia('(pointer: fine)').matches) return;
+  if (isMobile()) return;
 
   const parallaxEls = qsa('[data-parallax]');
   if (!parallaxEls.length) return;
 
-  // Set will-change once before attaching the listener (hints compositor)
-  parallaxEls.forEach(el => {
-    el.style.willChange = 'transform';
-  });
-
-  // Create one quickTo per element per axis — reuses a single tween, no GC pressure
-  const movers = parallaxEls.map(el => {
-    const strength = parseFloat(el.dataset.parallax) || 1;
-    return {
-      xTo: gsap.quickTo(el, 'x', { duration: 0.8, ease: 'power2.out' }),
-      yTo: gsap.quickTo(el, 'y', { duration: 0.8, ease: 'power2.out' }),
-      strength,
-    };
-  });
-
   document.addEventListener('mousemove', e => {
-    const dx = (e.clientX / window.innerWidth  - 0.5) * 2; // -1 to 1
-    const dy = (e.clientY / window.innerHeight - 0.5) * 2;
+    const cx = window.innerWidth  / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx;
+    const dy = (e.clientY - cy) / cy;
 
-    movers.forEach(({ xTo, yTo, strength }) => {
-      xTo(dx * 20 * strength);
-      yTo(dy * 10 * strength);
+    parallaxEls.forEach(el => {
+      const strength = parseFloat(el.dataset.parallax) || 1;
+      gsap.to(el, {
+        x: dx * 20 * strength,
+        y: dy * 10 * strength,
+        duration: 1,
+        ease: 'power1.out'
+      });
     });
   });
 }
@@ -525,7 +419,7 @@ function initMouseParallax() {
 /* ── Industrial Particle Canvas ───────────────────────── */
 function initParticleCanvas() {
   const canvas = qs('#particle-canvas');
-  if (!canvas) return;
+  if (!canvas) return null;
 
   const ctx = canvas.getContext('2d');
   let W, H, particles = [];
@@ -539,21 +433,16 @@ function initParticleCanvas() {
   window.addEventListener('resize', resize);
 
   class Particle {
-    constructor(isSpark = false) {
-      this.isSpark = isSpark;
-      this.reset();
-    }
+    constructor() { this.reset(); }
     reset() {
-      this.x    = Math.random() * W;
-      this.y    = Math.random() * H;
-      this.vx   = (Math.random() - 0.5) * (this.isSpark ? 0.5 : 0.3);
-      this.vy   = -(Math.random() * (this.isSpark ? 1.0 : 0.6)) - 0.2;
-      this.size = this.isSpark
-        ? Math.random() * 3 + 3
-        : Math.random() * 2 + 0.5;
-      this.alpha  = Math.random() * 0.6 + 0.15;
+      this.x  = Math.random() * W;
+      this.y  = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = -Math.random() * 0.6 - 0.2;
+      this.size   = Math.random() * 2 + 0.5;
+      this.alpha  = Math.random() * 0.5 + 0.1;
       this.life   = Math.random() * 200 + 100;
-      this.maxLife = this.life;
+      this.maxLife= this.life;
     }
     update() {
       this.x += this.vx;
@@ -564,50 +453,33 @@ function initParticleCanvas() {
     draw() {
       const progress = this.life / this.maxLife;
       ctx.globalAlpha = this.alpha * progress;
-      if (this.isSpark) {
-        ctx.fillStyle = progress > 0.4 ? '#3da34d' : '#2d7d3a';
-      } else {
-        ctx.fillStyle = progress > 0.5 ? '#2d7d3a' : '#6b7280';
-      }
+      ctx.fillStyle = progress > 0.5 ? '#e8411e' : '#6b7280';
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
     }
   }
 
-  for (let i = 0; i < 60; i++) particles.push(new Particle(false));
-  for (let i = 0; i < 20; i++) particles.push(new Particle(true));
+  for (let i = 0; i < 80; i++) particles.push(new Particle());
 
-  let isVisible = true;
-  let rafId = null;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      isVisible = entries[0].isIntersecting;
-      if (!isVisible) {
-        cancelAnimationFrame(rafId);
-      } else {
-        rafId = requestAnimationFrame(animate);
-      }
-    },
-    { threshold: 0 }
-  );
-  observer.observe(canvas);
-
+  let started = false;
   function animate() {
-    if (!isVisible) return; // safety net
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => { p.update(); p.draw(); });
     ctx.globalAlpha = 1;
-    rafId = requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   }
-  rafId = requestAnimationFrame(animate);
+  return function start() {
+    if (started) return;
+    started = true;
+    animate();
+  };
 }
 
 /* ── Hero Animated SVG Background (industrial gears/lines) */
 function initHeroSVGBackground() {
   const canvas = qs('#hero-canvas');
-  if (!canvas) return;
+  if (!canvas) return null;
 
   const ctx = canvas.getContext('2d');
   let W, H, t = 0;
@@ -622,7 +494,7 @@ function initHeroSVGBackground() {
   function drawGear(x, y, r, teeth, rot, alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.strokeStyle = 'rgba(45,125,58,0.18)';
+    ctx.strokeStyle = '#e8411e';
     ctx.lineWidth = 1;
     ctx.translate(x, y);
     ctx.rotate(rot);
@@ -651,7 +523,7 @@ function initHeroSVGBackground() {
   function drawGridLines(alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.strokeStyle = 'rgba(45,125,58,0.06)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
     ctx.lineWidth = 1;
 
     const spacing = 60;
@@ -673,7 +545,7 @@ function initHeroSVGBackground() {
   function drawCrosshair(x, y, size, alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.strokeStyle = 'rgba(45,125,58,0.5)';
+    ctx.strokeStyle = 'rgba(232,65,30,0.5)';
     ctx.lineWidth = 0.5;
     ctx.beginPath();
     ctx.moveTo(x - size, y);
@@ -698,90 +570,9 @@ function initHeroSVGBackground() {
     { xFn: w => w * 0.55, yFn: h => h * 0.2, size: 20 },
   ];
 
-  let scanY = -4;
-  let scanActive = false;
-  let scanTimer = 0;
-  const SCAN_INTERVAL = 480;
-
-  function drawScanLine() {
-    scanTimer++;
-    if (scanTimer >= SCAN_INTERVAL && !scanActive) {
-      scanActive = true;
-      scanY = -4;
-      scanTimer = 0;
-    }
-    if (!scanActive) return;
-
-    scanY += H / 90;
-    if (scanY > H + 4) {
-      scanActive = false;
-      scanY = -4;
-      return;
-    }
-
-    const grad = ctx.createLinearGradient(0, scanY - 12, 0, scanY + 12);
-    grad.addColorStop(0, 'rgba(45,125,58,0)');
-    grad.addColorStop(0.5, 'rgba(45,125,58,0.12)');
-    grad.addColorStop(1, 'rgba(45,125,58,0)');
-    ctx.save();
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, scanY - 12, W, 24);
-    ctx.restore();
-  }
-
-  function drawTargetRings() {
-    const rings = [
-      { xFn: w => w * 0.72, yFn: h => h * 0.4, r: 28 },
-      { xFn: w => w * 0.25, yFn: h => h * 0.55, r: 18 },
-    ];
-    rings.forEach(ring => {
-      const pulse = 0.5 + Math.sin(t * 0.025) * 0.3;
-      ctx.save();
-      ctx.globalAlpha = pulse * 0.25;
-      ctx.strokeStyle = 'rgba(45,125,58,0.8)';
-      ctx.lineWidth = 0.8;
-      ctx.beginPath();
-      ctx.arc(ring.xFn(W), ring.yFn(H), ring.r, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.globalAlpha = pulse * 0.5;
-      ctx.fillStyle = 'rgba(45,125,58,0.9)';
-      ctx.beginPath();
-      ctx.arc(ring.xFn(W), ring.yFn(H), 2, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.globalAlpha = pulse * 0.2;
-      ctx.strokeStyle = 'rgba(45,125,58,1)';
-      ctx.lineWidth = 0.6;
-      const x = ring.xFn(W), y = ring.yFn(H);
-      ctx.beginPath();
-      ctx.moveTo(x - ring.r * 1.4, y); ctx.lineTo(x + ring.r * 1.4, y);
-      ctx.moveTo(x, y - ring.r * 1.4); ctx.lineTo(x, y + ring.r * 1.4);
-      ctx.stroke();
-      ctx.restore();
-    });
-  }
-
-  let isVisible = true;
-  let rafId = null;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      isVisible = entries[0].isIntersecting;
-      if (!isVisible) {
-        cancelAnimationFrame(rafId);
-      } else {
-        rafId = requestAnimationFrame(render);
-      }
-    },
-    { threshold: 0 }
-  );
-  observer.observe(canvas);
-
   function render() {
-    if (!isVisible) return; // safety net
     ctx.clearRect(0, 0, W, H);
     drawGridLines(1);
-    drawScanLine();
-    drawTargetRings();
 
     gears.forEach(g => {
       drawGear(g.xFn(W), g.yFn(H), g.r, g.teeth,
@@ -794,9 +585,15 @@ function initHeroSVGBackground() {
     });
 
     t++;
-    rafId = requestAnimationFrame(render);
+    requestAnimationFrame(render);
   }
-  rafId = requestAnimationFrame(render);
+
+  let started = false;
+  return function start() {
+    if (started) return;
+    started = true;
+    render();
+  };
 }
 
 /* ── Carousel ─────────────────────────────────────────── */
@@ -879,47 +676,14 @@ function initSVGAnimations() {
   });
 }
 
-/* ── Marquee (GSAP dual-track, hover pause) ───────────── */
+/* ── Marquee duplicate ────────────────────────────────── */
 function initMarquee() {
-  const wrap = qs('.marquee-wrap');
-  if (!wrap) return;
+  const track = qs('.marquee-track');
+  if (!track) return;
 
-  const tracks = qsa('.marquee-track', wrap);
-  if (!tracks.length) return;
-
-  if (tracks.length === 1) {
-    const clone = tracks[0].cloneNode(true);
-    wrap.appendChild(clone);
-  }
-
-  const allTracks = qsa('.marquee-track', wrap);
-  const trackW = allTracks[0].scrollWidth / 2;
-
-  const tweens = [
-    gsap.to(allTracks[0], {
-      x: -trackW,
-      duration: 22,
-      ease: 'none',
-      repeat: -1,
-      modifiers: { x: gsap.utils.unitize(x => parseFloat(x) % trackW) }
-    }),
-    gsap.to(allTracks[1], {
-      x: trackW,
-      duration: 26,
-      ease: 'none',
-      repeat: -1,
-      modifiers: { x: gsap.utils.unitize(x => parseFloat(x) % trackW) }
-    })
-  ];
-
-  if (isReducedMotion()) {
-    tweens.forEach(t => t.pause());
-  }
-
-  wrap.addEventListener('mouseenter', () => tweens.forEach(t => t.pause()));
-  wrap.addEventListener('mouseleave', () => {
-    if (!isReducedMotion()) tweens.forEach(t => t.play());
-  });
+  // Duplicate for seamless loop
+  const clone = track.cloneNode(true);
+  track.parentElement.appendChild(clone);
 }
 
 /* ── Language auto-detect ─────────────────────────────── */
@@ -1027,17 +791,6 @@ function initPrefetch() {
 
 /* ── Page transition on link clicks ──────────────────── */
 function initPageTransitions() {
-  const overlay = qs('#page-transition');
-
-  if (overlay) {
-    gsap.fromTo(overlay,
-      { clipPath: 'inset(0 0% 0 0)' },
-      { clipPath: 'inset(0 100% 0 0)', duration: 0.45, ease: 'power3.inOut', delay: 0.05,
-        onComplete: () => { overlay.style.pointerEvents = 'none'; }
-      }
-    );
-  }
-
   document.addEventListener('click', e => {
     const link = e.target.closest('a[href]');
     if (!link) return;
@@ -1048,59 +801,23 @@ function initPageTransitions() {
         link.target === '_blank') return;
 
     e.preventDefault();
-    if (!overlay) { window.location.href = href; return; }
 
-    overlay.style.pointerEvents = 'all';
-    gsap.fromTo(overlay,
-      { clipPath: 'inset(0 100% 0 0)' },
-      {
-        clipPath: 'inset(0 0% 0 0)',
-        duration: 0.4,
-        ease: 'power3.inOut',
-        onComplete: () => { window.location.href = href; }
+    gsap.to('body', {
+      autoAlpha: 0,
+      duration: 0.3,
+      ease: 'power2.in',
+      onComplete: () => {
+        window.location.href = href;
       }
-    );
-  });
-}
-
-/* ── Pin Section (proceso) ────────────────────────────── */
-function initPinSection() {
-  if (isMobile()) return;
-
-  const section = qs('.pin-section');
-  const track = qs('.pin-section__track');
-  if (!section || !track) return;
-
-  const steps = qsa('.pin-section__step', track);
-  if (!steps.length) return;
-
-  const getScrollDist = () => track.scrollWidth - section.offsetWidth;
-
-  const tween = gsap.to(track, {
-    x: () => -getScrollDist(),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: section,
-      start: 'top top',
-      end: () => '+=' + (getScrollDist() + window.innerHeight * 0.5),
-      pin: true,
-      scrub: 1.2,
-      invalidateOnRefresh: true,
-      anticipatePin: 1
-    }
-  });
-
-  steps.forEach((step, i) => {
-    gsap.set(step, { autoAlpha: i === 0 ? 1 : 0.3 });
-    ScrollTrigger.create({
-      containerAnimation: tween,
-      trigger: step,
-      start: 'left 70%',
-      end: 'right 30%',
-      onEnter: () => gsap.to(step, { autoAlpha: 1, duration: 0.4 }),
-      onLeave: () => gsap.to(step, { autoAlpha: 0.3, duration: 0.4 }),
-      onLeaveBack: () => gsap.to(step, { autoAlpha: i === 0 ? 1 : 0.3, duration: 0.4 })
     });
+  });
+
+  // Fade in on load (for transitions)
+  gsap.from('body', {
+    autoAlpha: 0,
+    duration: 0.4,
+    ease: 'power2.out',
+    clearProps: 'opacity,visibility'
   });
 }
 
@@ -1114,7 +831,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousels();
   initMouseParallax();
   initMicrointeractions();
-  initPinSection();
   initPrefetch();
   initLanguageDetect();
 
@@ -1128,9 +844,9 @@ document.addEventListener('DOMContentLoaded', () => {
     revealPage();
   }
 
-  // Always init canvas effects, SVG animations, and transitions
-  initParticleCanvas();
-  initHeroSVGBackground();
+  // Set up canvases but defer their RAF loops until after the title reveal.
+  startParticleCanvas    = initParticleCanvas();
+  startHeroSVGBackground = initHeroSVGBackground();
   initSVGAnimations();
   initPageTransitions();
 });

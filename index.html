@@ -17,6 +17,7 @@
   <link rel="alternate" hreflang="es" href="https://www.ubela.net/" />
   <link rel="alternate" hreflang="en" href="https://www.ubela.net/en/" />
   <link rel="alternate" hreflang="eu" href="https://www.ubela.net/eu/" />
+  <link rel="alternate" hreflang="fr" href="https://www.ubela.net/fr/" />
   <link rel="alternate" hreflang="x-default" href="https://www.ubela.net/" />
 
   <!-- ── Geo Tags ──────────────────────────────────────── -->
@@ -54,6 +55,7 @@
   <link rel="prefetch" href="contacto.html" />
   <link rel="prefetch" href="en/index.html" />
   <link rel="prefetch" href="eu/index.html" />
+  <link rel="prefetch" href="fr/index.html" />
 
   <!-- ── Fonts Preconnect ───────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -181,7 +183,6 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBVPJV6G"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <div id="page-transition" aria-hidden="true"></div>
 
   <!-- ── Custom Cursor ─────────────────────────────────── -->
   <div class="cursor" aria-hidden="true">
@@ -211,6 +212,7 @@
         <a href="index.html" class="nav__lang-btn active" aria-label="Español" aria-current="true">ES</a>
         <a href="en/index.html" class="nav__lang-btn" aria-label="English">EN</a>
         <a href="eu/index.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
+        <a href="fr/index.html" class="nav__lang-btn" aria-label="Français">FR</a>
       </li>
     </ul>
 
@@ -233,6 +235,7 @@
       <a href="index.html" class="nav__lang-btn active" aria-label="Español">ES</a>
       <a href="en/index.html" class="nav__lang-btn" aria-label="English">EN</a>
       <a href="eu/index.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
+      <a href="fr/index.html" class="nav__lang-btn" aria-label="Français">FR</a>
     </div>
   </div>
 
@@ -363,63 +366,6 @@
           <span class="stat__label">Sectores industriales</span>
         </div>
 
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════ -->
-    <!-- PROCESO — pin horizontal scroll (desktop only)     -->
-    <!-- ══════════════════════════════════════════════════ -->
-    <section class="section section--darker pin-section" id="proceso" aria-labelledby="process-heading">
-      <div class="container">
-        <header class="section-header" style="margin-bottom:var(--sp-xl);">
-          <p class="overline">Cómo trabajamos</p>
-          <h2 class="display-2" id="process-heading" style="margin-top:0.75rem;">Nuestro<br>Proceso</h2>
-        </header>
-      </div>
-
-      <div class="pin-section__outer">
-        <div class="pin-section__track">
-
-          <div class="pin-section__step">
-            <div class="pin-section__number" aria-hidden="true">01</div>
-            <div class="pin-section__icon" aria-hidden="true">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="8" y="6" width="32" height="36" rx="2"/>
-                <path d="M16 16h16M16 22h16M16 28h10"/>
-                <path d="M32 34l4 4M34 34l2-2"/>
-              </svg>
-            </div>
-            <h3 class="pin-section__title">Recibimos el Plano</h3>
-            <p class="pin-section__text">Analizamos su especificación técnica, plano o muestra. Evaluamos materiales, tolerancias y tiempos de entrega para ofrecerle el presupuesto más competitivo.</p>
-          </div>
-
-          <div class="pin-section__step">
-            <div class="pin-section__number" aria-hidden="true">02</div>
-            <div class="pin-section__icon" aria-hidden="true">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="24" cy="24" r="10"/>
-                <circle cx="24" cy="24" r="3"/>
-                <path d="M24 6v6M24 36v6M6 24h6M36 24h6"/>
-                <path d="M12 12l4 4M32 32l4 4M36 12l-4 4M16 32l-4 4"/>
-              </svg>
-            </div>
-            <h3 class="pin-section__title">Mecanizamos con Precisión</h3>
-            <p class="pin-section__text">Nuestros centros CNC de última generación trabajan los materiales con tolerancias micrométricas. Control de calidad en cada fase del proceso de fabricación.</p>
-          </div>
-
-          <div class="pin-section__step">
-            <div class="pin-section__number" aria-hidden="true">03</div>
-            <div class="pin-section__icon" aria-hidden="true">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M8 24l10 10L40 14"/>
-                <circle cx="24" cy="24" r="18"/>
-              </svg>
-            </div>
-            <h3 class="pin-section__title">Entregamos en Plazo</h3>
-            <p class="pin-section__text">Inspección final, embalaje industrial y entrega según los plazos acordados. Seguimiento post-entrega y soporte técnico para garantizar su satisfacción total.</p>
-          </div>
-
-        </div>
       </div>
     </section>
 
@@ -728,18 +674,17 @@
     <!-- CTA BAND                                           -->
     <!-- ══════════════════════════════════════════════════ -->
     <section
-      class="section cta-band"
+      class="section"
       aria-labelledby="cta-heading"
-      style="background:var(--clr-accent);padding:var(--sp-2xl) 0;"
+      style="background:var(--clr-accent);padding:var(--sp-2xl) 0;overflow:hidden;position:relative;"
     >
       <!-- Decorative background text -->
       <span
-        class="cta-band__bg-text"
         aria-hidden="true"
-        style="position:absolute;right:-2%;top:50%;transform:translateY(-50%);font-family:var(--font-display);font-size:clamp(6rem,15vw,14rem);line-height:1;pointer-events:none;user-select:none;white-space:nowrap;"
+        style="position:absolute;right:-2%;top:50%;transform:translateY(-50%);font-family:var(--font-display);font-size:clamp(6rem,15vw,14rem);line-height:1;color:rgba(0,0,0,0.1);pointer-events:none;user-select:none;white-space:nowrap;"
       >UBELA</span>
 
-      <div class="container cta-band__content">
+      <div class="container" style="position:relative;z-index:1;">
         <div class="cta-band__inner" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-xl);">
 
           <div>
