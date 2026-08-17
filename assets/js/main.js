@@ -3,8 +3,24 @@
  * GSAP-powered animations, cursor, loader, navigation
  */
 
-/* ── Register GSAP Plugins ────────────────────────────── */
-gsap.registerPlugin(ScrollTrigger);
+/* ── GSAP availability guard ──────────────────────────── */
+/* If the GSAP CDN failed to load, NEVER let the init throw — that would
+   leave the full-screen #page-loader covering the page on first visit.
+   Instead: dismiss the loader, reveal all content, and bail out. */
+const HAS_GSAP = typeof window.gsap !== 'undefined';
+
+if (HAS_GSAP) {
+  gsap.registerPlugin(ScrollTrigger);
+} else {
+  document.addEventListener('DOMContentLoaded', () => {
+    const loader = document.querySelector('#page-loader');
+    if (loader) loader.style.display = 'none';
+    document.body.style.overflow = '';
+    // Content is visible by default (no CSS gating); just ensure reveals show.
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
+      .forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  });
+}
 
 /* ── Utility ──────────────────────────────────────────── */
 const qs  = (sel, ctx = document) => ctx.querySelector(sel);
@@ -112,13 +128,14 @@ function initNav() {
     onLeaveBack:  () => nav.classList.remove('nav--scrolled'),
   });
 
-  // Active link highlighting
+  // Active link highlighting — tolerante con URLs limpias (sin .html)
   const links = qsa('.nav__link[data-page]');
-  const currentPath = window.location.pathname.split('/').filter(Boolean).pop() || 'index.html';
+  const stripHtml = s => s.replace(/\.html$/, '');
+  const rawPath = window.location.pathname.split('/').filter(Boolean).pop() || 'index.html';
+  const currentPath = stripHtml(rawPath) || 'index';
 
   links.forEach(link => {
-    if (link.dataset.page === currentPath ||
-        (currentPath === '' && link.dataset.page === 'index.html')) {
+    if (stripHtml(link.dataset.page) === currentPath) {
       link.classList.add('active');
     }
   });
@@ -152,6 +169,15 @@ function prepareHeroAnimation() {
   const lines = qsa('.hero__title .line');
   const introSelector = '.hero__eyebrow, .hero__subtitle, .hero__cta, .hero__scroll-hint';
 
+  // Reduced motion: show everything immediately, no entrance animation.
+  if (isReducedMotion()) {
+    gsap.set([lines, introSelector, '.hero__logo-wrap'],
+      { autoAlpha: 1, yPercent: 0, y: 0, scale: 1, clearProps: 'transform' });
+    qsa('.hero__title .keyword-highlight').forEach(el => el.classList.add('active'));
+    hero.dataset.heroAnimated = 'true';
+    return;
+  }
+
   gsap.set(lines, { autoAlpha: 0, yPercent: 100, force3D: true });
   gsap.set(introSelector, { autoAlpha: 0, y: 24, force3D: true });
   gsap.set('.hero__logo-wrap', { autoAlpha: 0, scale: 0.85, force3D: true });
@@ -182,12 +208,20 @@ function preparePageTitleAnimation() {
   });
 
   const lineInners = qsa('.page-title-line-inner');
+  const subtitles  = qsa('.page-hero .body-lg');
+  subtitles.forEach(subtitle => subtitle.classList.remove('reveal'));
+
+  // Reduced motion: reveal page-hero title + subtitle instantly.
+  if (isReducedMotion()) {
+    if (lineInners.length) gsap.set(lineInners, { autoAlpha: 1, yPercent: 0, clearProps: 'transform' });
+    if (subtitles.length)  gsap.set(subtitles,  { autoAlpha: 1, y: 0, clearProps: 'transform' });
+    qsa('.page-hero').forEach(ph => { ph.dataset.titleAnimated = 'true'; });
+    return;
+  }
+
   if (lineInners.length) {
     gsap.set(lineInners, { autoAlpha: 0, yPercent: 100, force3D: true });
   }
-
-  const subtitles = qsa('.page-hero .body-lg');
-  subtitles.forEach(subtitle => subtitle.classList.remove('reveal'));
   if (subtitles.length) {
     gsap.set(subtitles, { autoAlpha: 0, y: 24, force3D: true });
   }
@@ -297,8 +331,14 @@ function schedulePageTitleAnimation() {
 /* ── Scroll reveal animations ─────────────────────────── */
 function initScrollAnimations() {
   // Counters — number stats animate when first scrolled into view
+  const reducedMotion = isReducedMotion();
   qsa('.stat__number[data-count]').forEach(el => {
     const target = parseInt(el.dataset.count, 10);
+    // Reduced motion: show the final number immediately, no count-up.
+    if (reducedMotion) {
+      el.textContent = target + (el.dataset.suffix || '');
+      return;
+    }
     ScrollTrigger.create({
       trigger: el,
       start: 'top 90%',
@@ -408,37 +448,82 @@ function initMarquee() {
   track.parentElement.appendChild(clone);
 }
 
-/* ── Language auto-detect ─────────────────────────────── */
-function initLanguageDetect() {
-  const KEY = 'ubela_lang_set';
-  if (sessionStorage.getItem(KEY)) return;
+/* ── Formulario de candidaturas (Trabaja con nosotros) ── */
+function initApplicationForm() {
+  const form = qs('.js-application-form');
+  if (!form) return;
 
-  sessionStorage.setItem(KEY, '1');
+  const fileInput = qs('input[type="file"]', form);
+  const fileDrop  = qs('.file-drop', form);
+  const fileName  = qs('.file-drop__name', form);
+  const status    = qs('.form-status', form);
+  const submitBtn = qs('.form-submit', form);
 
-  const currentLang = document.documentElement.lang || 'es';
+  const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 
-  // Use browser language as proxy (no user permission needed)
-  const browserLang = navigator.language || navigator.userLanguage || 'es';
-  const lang2 = browserLang.slice(0, 2).toLowerCase();
-
-  // Basque is never the default (per requirements)
-  const langMap = {
-    'en': '/en/',
-    'fr': '/en/',
-    'de': '/en/',
-    'pt': '/',
-    'it': '/',
-    'es': '/',
-  };
-
-  // Only redirect if we're on root and browser is English
-  if (lang2 === 'en' && currentLang !== 'en' && !window.location.pathname.includes('/en/')) {
-    const path = window.location.pathname;
-    // Detect base path (e.g. /proyecto-ubela/ on GitHub Pages, or / on production)
-    const basePath = path.replace(/\/(eu\/)?[^/]*$/, '/');
-    const target = basePath + 'en/';
-    window.location.replace(target);
+  function showError(msg) {
+    if (!status) return;
+    status.textContent = msg;
+    status.classList.add('form-status--error');
   }
+
+  function clearError() {
+    if (!status) return;
+    status.textContent = '';
+    status.classList.remove('form-status--error');
+  }
+
+  if (fileInput && fileDrop && fileName) {
+    const emptyLabel = fileName.textContent;
+
+    fileInput.addEventListener('change', () => {
+      clearError();
+      const file = fileInput.files && fileInput.files[0];
+
+      if (!file) {
+        fileDrop.classList.remove('has-file');
+        fileName.textContent = emptyLabel;
+        return;
+      }
+
+      if (file.size > MAX_BYTES) {
+        fileInput.value = '';
+        fileDrop.classList.remove('has-file');
+        fileName.textContent = emptyLabel;
+        showError(form.dataset.msgFileLarge || 'El archivo supera el tamaño máximo de 10 MB.');
+        return;
+      }
+
+      fileDrop.classList.add('has-file');
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      fileName.textContent = file.name + ' (' + sizeMb + ' MB)';
+    });
+  }
+
+  form.addEventListener('submit', e => {
+    clearError();
+
+    if (!form.checkValidity()) {
+      // Deja que el navegador muestre sus mensajes nativos
+      return;
+    }
+
+    if (fileInput && fileInput.files[0] && fileInput.files[0].size > MAX_BYTES) {
+      e.preventDefault();
+      showError(form.dataset.msgFileLarge || 'El archivo supera el tamaño máximo de 10 MB.');
+      return;
+    }
+
+    // Evita dobles envíos
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      const sending = form.dataset.msgSending;
+      if (sending) {
+        const label = qs('.form-submit__label', submitBtn);
+        if (label) label.textContent = sending;
+      }
+    }
+  });
 }
 
 /* ── Nav link smooth prefetch ─────────────────────────── */
@@ -490,6 +575,7 @@ function initPageTransitions() {
 
 /* ── Init ─────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+  if (!HAS_GSAP) return; // no-GSAP fallback already handled above
   prepareHeroAnimation();
   preparePageTitleAnimation();
   initCursor();
@@ -498,7 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousels();
   initScrollAnimations();
   initPrefetch();
-  initLanguageDetect();
+  initApplicationForm();
 
   const hasLoader = !!document.querySelector('#page-loader');
 
@@ -515,6 +601,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Refresh ScrollTrigger after fonts load
-document.fonts?.ready.then(() => {
-  ScrollTrigger.refresh();
-});
+if (HAS_GSAP) {
+  document.fonts?.ready.then(() => {
+    ScrollTrigger.refresh();
+  });
+}

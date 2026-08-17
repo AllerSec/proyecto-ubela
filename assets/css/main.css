@@ -1,18 +1,20 @@
 /* =========================================================
    UBELA S.L. — Main Stylesheet
-   Industrial precision. Refined minimalism.
+   Industrial precision. Dark iron base, corporate green +
+   brass accents earned on interaction — not decoration.
    ========================================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap');
 
 /* ─── Custom Properties ──────────────────────────────── */
 :root {
   /* Brand colors — UBELA corporate green identity */
+  --clr-abyss:      #13151a;   /* footer — one step below iron */
   --clr-iron:       #1a1c20;
+  --clr-onyx:       #242830;   /* section--light surface */
   --clr-steel:      #2d3139;
   --clr-graphite:   #3e4450;
   --clr-slate:      #6b7280;
   --clr-fog:        #9ca3af;
+  --clr-mist:       #d8dde3;   /* hero meta — between cloud and white */
   --clr-cloud:      #e5e7eb;
   --clr-white:      #f9fafb;
   --clr-accent:     #2d7d3a;   /* UBELA corporate green */
@@ -43,6 +45,18 @@
   --dur-fast:  160ms;
   --dur-mid:   320ms;
   --dur-slow:  600ms;
+
+  /* Focus ring — brand accent, visible on the dark iron base */
+  --focus-ring:   var(--clr-accent-light);
+  --focus-offset: 3px;
+
+  /* Semantic z-index scale */
+  --z-base:    1;
+  --z-nav:     100;
+  --z-overlay: 99;
+  --z-hamburger: 101;
+  --z-tooltip: 50;
+  --z-loader:  9000;
 }
 
 /* ─── Reset ──────────────────────────────────────────── */
@@ -88,11 +102,29 @@ button, input, textarea, select {
   font: inherit;
   border: none;
   background: none;
-  outline: none;
 }
 
 button {
   cursor: pointer;
+}
+
+/* ─── Focus visibility ───────────────────────────────── */
+/* Mouse clicks don't show a ring; keyboard navigation does. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: 1px;
+}
+
+/* On the green CTA band / marquee, the green ring would vanish —
+   use a light ring there for contrast. */
+.marquee-wrap :focus-visible,
+[style*="background:var(--clr-accent)"] :focus-visible {
+  outline-color: var(--clr-white);
 }
 
 /* ─── Custom Cursor (removed — using native cursor) ─── */
@@ -103,12 +135,27 @@ button {
   position: fixed;
   inset: 0;
   background: var(--clr-iron);
-  z-index: 9998;
+  z-index: var(--z-loader);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: var(--sp-lg);
+  /* Safety net: if JS never dismisses it (e.g. GSAP CDN fails before
+     DOMContentLoaded binds), the loader fades itself out so the page
+     can never be permanently trapped behind the overlay. */
+  animation: loaderFailsafe 0.4s ease forwards 4s;
+}
+
+@keyframes loaderFailsafe {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+/* When JS is in control it adds this class and the failsafe is irrelevant
+   (JS sets inline opacity/display first). Reduced-motion users still get
+   the failsafe, just instant. */
+@media (prefers-reduced-motion: reduce) {
+  #page-loader { animation-delay: 2s; animation-duration: 0.01ms; }
 }
 
 .loader__logo {
@@ -154,7 +201,7 @@ button {
   left: 0;
   right: 0;
   height: var(--nav-h);
-  z-index: 100;
+  z-index: var(--z-nav);
   display: flex;
   align-items: center;
   padding: 0 var(--sp-xl);
@@ -215,10 +262,12 @@ button {
   position: absolute;
   bottom: -2px;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 1px;
   background: var(--clr-accent);
-  transition: width var(--dur-mid) var(--ease-out-expo);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-mid) var(--ease-out-expo);
 }
 
 .nav__link:hover,
@@ -228,7 +277,7 @@ button {
 
 .nav__link:hover::after,
 .nav__link.active::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 /* Language switcher */
@@ -242,16 +291,31 @@ button {
 }
 
 .nav__lang-btn {
+  position: relative;
   font-family: var(--font-condensed);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--clr-slate);
-  padding: 0.2rem 0.4rem;
+  color: var(--clr-fog);
+  padding: 0.3rem 0.5rem;
   border-radius: 2px;
   transition: color var(--dur-fast), background var(--dur-fast);
   cursor: pointer;
+}
+
+/* WCAG 2.5.5 — invisible 44×44 hit area centred on the chip, so the
+   visual chip stays compact but the tap/click target is full size. */
+.nav__lang-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 44px;
+  min-height: 44px;
+  width: 100%;
+  height: 100%;
 }
 
 .nav__lang-btn:hover,
@@ -268,7 +332,7 @@ button {
   margin-left: auto;
   cursor: pointer;
   padding: 8px;
-  z-index: 101;
+  z-index: var(--z-hamburger);
 }
 
 .nav__hamburger span {
@@ -295,7 +359,7 @@ button {
   position: fixed;
   inset: 0;
   background: var(--clr-iron);
-  z-index: 99;
+  z-index: var(--z-overlay);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -410,7 +474,7 @@ button {
 }
 
 .section--light {
-  background: #242830;
+  background: var(--clr-onyx);
 }
 
 /* ─── Typography ─────────────────────────────────────── */
@@ -656,7 +720,93 @@ button {
 .card__text {
   font-size: 0.9rem;
   line-height: 1.65;
-  color: var(--clr-slate);
+  color: var(--clr-fog);
+}
+
+/* ─── Sectors — deliberate asymmetric composition ─────── */
+/* Not three identical cards: one featured sector spans the row as a
+   wide image+text split, the two supporting sectors share the row below. */
+.sectors-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-lg);
+}
+
+.card--sector {
+  text-align: left;
+}
+
+/* The two supporting sectors keep the centred icon rhythm of the original
+   card, but left-aligned to sit under the featured split. */
+.card--sector .card__icon {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Featured sector: full-width horizontal split. Image and copy side by side. */
+.card--sector-featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: var(--sp-xl);
+  align-items: center;
+  padding: var(--sp-lg);
+}
+
+.card--sector-featured .card__media {
+  margin: 0;
+  height: 100%;
+  min-height: 280px;
+  aspect-ratio: auto;
+}
+
+.card--sector-featured .card__media img {
+  height: 100%;
+}
+
+.card--sector-featured .card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card--sector-featured .card__icon {
+  margin-bottom: var(--sp-md);
+}
+
+.card--sector-featured .card__title {
+  font-size: 1.6rem;
+}
+
+.card--sector-featured .card__text {
+  font-size: 0.95rem;
+}
+
+/* Featured tag — brass kicker that earns the "principal" emphasis */
+.card__tag {
+  font-family: var(--font-condensed);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  margin-bottom: var(--sp-md);
+}
+
+@media (max-width: 768px) {
+  .sectors-grid {
+    grid-template-columns: 1fr;
+  }
+  .card--sector-featured {
+    grid-template-columns: 1fr;
+    gap: var(--sp-md);
+    padding: var(--sp-lg);
+  }
+  .card--sector-featured .card__media {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    margin: calc(-1 * var(--sp-lg)) calc(-1 * var(--sp-lg)) var(--sp-md);
+  }
 }
 
 /* ─── Grid System ────────────────────────────────────── */
@@ -806,14 +956,14 @@ button {
   font-size: 0.8rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--clr-slate);
+  color: var(--clr-fog);
   margin-top: 0.5rem;
   display: block;
 }
 
 /* ─── Footer ─────────────────────────────────────────── */
 .footer {
-  background: #13151a;
+  background: var(--clr-abyss);
   border-top: 1px solid rgba(255,255,255,0.06);
   padding: var(--sp-2xl) 0 var(--sp-xl);
 }
@@ -843,7 +993,7 @@ button {
 
 .footer__tagline {
   font-size: 0.875rem;
-  color: var(--clr-slate);
+  color: var(--clr-fog);
   line-height: 1.6;
   max-width: 260px;
 }
@@ -866,7 +1016,7 @@ button {
 
 .footer__links a {
   font-size: 0.875rem;
-  color: var(--clr-slate);
+  color: var(--clr-fog);
   transition: color var(--dur-fast);
 }
 
@@ -891,7 +1041,7 @@ button {
 
 .footer__contact-text {
   font-size: 0.875rem;
-  color: var(--clr-slate);
+  color: var(--clr-fog);
   line-height: 1.5;
 }
 
@@ -907,11 +1057,11 @@ button {
 
 .footer__copyright {
   font-size: 0.8rem;
-  color: var(--clr-graphite);
+  color: var(--clr-fog);
 }
 
 .footer__copyright a {
-  color: var(--clr-slate);
+  color: var(--clr-fog);
   transition: color var(--dur-fast);
 }
 
@@ -926,13 +1076,13 @@ button {
 
 .footer__legal a {
   font-size: 0.75rem;
-  color: var(--clr-graphite);
+  color: var(--clr-fog);
   letter-spacing: 0.05em;
   transition: color var(--dur-fast);
 }
 
 .footer__legal a:hover {
-  color: var(--clr-slate);
+  color: var(--clr-white);
 }
 
 /* ─── Reveal animations (initial state set by JS only) ── */
@@ -1124,7 +1274,7 @@ button {
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #d8dde3;
+  color: var(--clr-mist);
   text-align: center;
   white-space: nowrap;
   text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 0 12px rgba(0,0,0,0.45);
@@ -1273,7 +1423,7 @@ button {
 .service-item__text {
   font-size: 0.875rem;
   line-height: 1.65;
-  color: var(--clr-slate);
+  color: var(--clr-fog);
 }
 
 /* ─── Stats row ──────────────────────────────────────── */
@@ -1502,15 +1652,15 @@ button {
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  /* Single directional scrim — readability first. Footage keeps its
+     own colour; the brand is carried by the green corner vignette only. */
   background:
-    radial-gradient(circle at 75% 25%, rgba(201,168,76,0.08) 0%, transparent 45%),
-    radial-gradient(circle at 15% 85%, rgba(45,125,58,0.16) 0%, transparent 50%),
+    radial-gradient(120% 90% at 12% 90%, rgba(45,125,58,0.14) 0%, transparent 55%),
     linear-gradient(
       to bottom,
-      rgba(26,28,32,0.55) 0%,
-      rgba(26,28,32,0.40) 35%,
-      rgba(26,28,32,0.78) 80%,
-      rgba(26,28,32,0.98) 100%
+      rgba(26,28,32,0.50) 0%,
+      rgba(26,28,32,0.62) 60%,
+      rgba(26,28,32,0.96) 100%
     );
 }
 
@@ -1546,11 +1696,11 @@ button {
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--clr-slate);
+  color: var(--clr-fog);
 }
 
 .breadcrumb__item a {
-  color: var(--clr-slate);
+  color: var(--clr-fog);
   transition: color var(--dur-fast);
 }
 
@@ -1559,7 +1709,7 @@ button {
 }
 
 .breadcrumb__sep {
-  color: var(--clr-graphite);
+  color: var(--clr-slate);
   font-size: 0.6rem;
 }
 
@@ -1609,12 +1759,25 @@ button {
 }
 
 .carousel__dot {
+  position: relative;
   width: 6px;
   height: 6px;
-  background: var(--clr-graphite);
+  background: var(--clr-slate);
   border-radius: 50%;
   cursor: pointer;
   transition: background var(--dur-fast), transform var(--dur-fast);
+}
+
+/* WCAG 2.5.5 — 44×44 invisible hit area around the 6px dot */
+.carousel__dot::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
 }
 
 .carousel__dot.active {
@@ -1643,7 +1806,7 @@ button {
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--dur-fast), transform var(--dur-fast);
-  z-index: 50;
+  z-index: var(--z-tooltip);
 }
 
 [data-tooltip]:hover::after {
@@ -1961,6 +2124,33 @@ button {
   .nav__overlay .nav__link {
     font-size: 1.75rem;
   }
+}
+
+/* ─── Spec list — accent tick markers (no em-dash bullets) ── */
+.spec-list {
+  margin-top: var(--sp-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.spec-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--clr-fog);
+  line-height: 1.5;
+}
+
+.spec-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  background: var(--clr-accent);
+  transform: rotate(45deg);
 }
 
 /* ─── Sector Slide (carousel inside sectores section) ── */
@@ -2325,4 +2515,460 @@ body {
     animation: none !important;
   }
   .hero__video { transform: scale(1.04); }
+}
+
+/* =========================================================
+   Estructura 2026 — 6 secciones, ES + EU
+   Navegación ampliada, formulario de candidaturas,
+   fichas de maquinaria y pabellones.
+   ========================================================= */
+
+/* Título del hero con palabras largas (SOLUCIONES INDUSTRIALES /
+   IRTENBIDE INDUSTRIALAK): mismo carácter, cuerpo algo menor para
+   que la palabra de 12 letras no desborde la columna. */
+.hero__title--fit {
+  font-size: clamp(3.4rem, 8.2vw, 8.2rem);
+}
+
+/* ─── Nav: seis entradas ─────────────────────────────── */
+.nav__menu {
+  gap: clamp(1.1rem, 2.2vw, 2.4rem);
+}
+
+.nav__lang {
+  margin-left: var(--sp-md);
+  padding-left: var(--sp-md);
+  gap: 0.25rem;
+}
+
+/* El menú completo no cabe por debajo de ~1100px: hamburguesa antes */
+@media (max-width: 1100px) {
+  .nav__menu { display: none; }
+  .nav__hamburger { display: flex; }
+}
+
+.nav__overlay ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav__overlay .nav__link {
+  font-size: clamp(1.6rem, 4.5vh, 2.25rem);
+}
+
+/* ─── Formulario (Trabaja con nosotros) ──────────────── */
+.form-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: var(--sp-xl);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-lg);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-cloud);
+}
+
+.form-label abbr {
+  color: var(--clr-accent-light);
+  text-decoration: none;
+  margin-left: 0.15rem;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--clr-white);
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  border-radius: 0;
+  transition: border-color var(--dur-fast), background var(--dur-fast);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--clr-slate);
+}
+
+.form-input:hover,
+.form-textarea:hover {
+  border-color: rgba(255,255,255,0.28);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--clr-accent-light);
+  background: rgba(45,125,58,0.07);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.form-help {
+  font-size: 0.78rem;
+  color: var(--clr-slate);
+  line-height: 1.5;
+}
+
+/* Radio en fichas: Empleo / Prácticas */
+.choice-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-md);
+}
+
+.choice {
+  position: relative;
+  cursor: pointer;
+}
+
+.choice input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.choice span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255,255,255,0.14);
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clr-fog);
+  transition: border-color var(--dur-fast), background var(--dur-fast),
+              color var(--dur-fast);
+}
+
+.choice:hover span {
+  border-color: rgba(255,255,255,0.3);
+  color: var(--clr-cloud);
+}
+
+.choice input:checked + span {
+  border-color: var(--clr-accent);
+  background: rgba(45,125,58,0.16);
+  color: var(--clr-white);
+}
+
+.choice input:focus-visible + span {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* Adjuntar CV */
+.file-field input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.file-drop {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  padding: 1rem;
+  border: 1px dashed rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: border-color var(--dur-fast), background var(--dur-fast);
+}
+
+.file-drop:hover {
+  border-color: var(--clr-accent-light);
+  background: rgba(45,125,58,0.07);
+}
+
+.file-field input[type="file"]:focus-visible ~ .file-drop {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.file-drop__icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(45,125,58,0.4);
+  color: var(--clr-accent-light);
+}
+
+.file-drop__label {
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--clr-cloud);
+  display: block;
+}
+
+.file-drop__name {
+  font-size: 0.8rem;
+  color: var(--clr-slate);
+  display: block;
+  margin-top: 0.15rem;
+  word-break: break-all;
+}
+
+.file-drop.has-file {
+  border-style: solid;
+  border-color: rgba(45,125,58,0.55);
+}
+
+.file-drop.has-file .file-drop__name {
+  color: var(--clr-accent-light);
+}
+
+/* Consentimiento */
+.form-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--clr-fog);
+  cursor: pointer;
+}
+
+.form-consent input {
+  accent-color: var(--clr-accent);
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.form-consent a {
+  color: var(--clr-accent-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.form-consent a:hover {
+  color: var(--clr-white);
+}
+
+/* Estado del envío */
+.form-status {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  display: none;
+}
+
+.form-status--error {
+  display: block;
+  color: #e08585;
+  border-color: rgba(208,82,82,0.45);
+  background: rgba(208,82,82,0.08);
+}
+
+.form-submit[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+@media (max-width: 640px) {
+  .form-card { padding: var(--sp-lg); }
+  .form-grid { grid-template-columns: 1fr; }
+  .choice-group { grid-template-columns: 1fr; }
+}
+
+/* ─── Fichas de maquinaria ───────────────────────────── */
+.machine-count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: var(--sp-sm);
+}
+
+.machine-count__num {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--clr-accent-light);
+}
+
+.machine-count__label {
+  font-family: var(--font-condensed);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-slate);
+}
+
+.machine-dims {
+  margin-top: var(--sp-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.machine-dims li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-md);
+}
+
+.machine-dims .dim-label {
+  font-family: var(--font-condensed);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--clr-slate);
+  white-space: nowrap;
+}
+
+.machine-dims .dim-value {
+  font-family: var(--font-condensed);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--clr-white);
+  white-space: nowrap;
+}
+
+.material-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ─── Pabellones (instalaciones) ─────────────────────── */
+.pavilions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-lg);
+}
+
+.pavilion {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  padding: var(--sp-xl) var(--sp-lg);
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: border-color var(--dur-mid), background var(--dur-mid);
+}
+
+.pavilion:hover {
+  border-color: rgba(45,125,58,0.4);
+  background: rgba(45,125,58,0.06);
+}
+
+.pavilion__num {
+  position: absolute;
+  top: -0.18em;
+  right: 0.05em;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 9vw, 8rem);
+  line-height: 1;
+  color: rgba(255,255,255,0.05);
+  pointer-events: none;
+  user-select: none;
+  transition: color var(--dur-mid);
+}
+
+.pavilion:hover .pavilion__num {
+  color: rgba(201,168,76,0.12);
+}
+
+.pavilion__icon {
+  width: 40px;
+  height: 40px;
+  color: var(--clr-accent);
+  margin-bottom: var(--sp-md);
+}
+
+.pavilion__title {
+  font-family: var(--font-condensed);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--clr-white);
+}
+
+.pavilion__text {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--clr-fog);
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .pavilions { grid-template-columns: 1fr; }
+  .pavilion { min-height: 170px; }
+}
+
+/* ─── Página Proyectos (en preparación) ──────────────── */
+.projects-soon {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--sp-2xl) 0;
+  position: relative;
+}
+
+.projects-soon__mark {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto var(--sp-lg);
+  border: 1px solid rgba(45,125,58,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--clr-accent);
 }

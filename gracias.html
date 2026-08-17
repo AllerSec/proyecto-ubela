@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO: noindex -->
-  <title>404 | Página no encontrada | UBELA S.L.</title>
-  <meta name="description" content="La página que busca no existe. Vuelva al inicio de UBELA S.L." />
+  <title>Candidatura enviada | UBELA S.L.</title>
+  <meta name="description" content="Hemos recibido tu candidatura correctamente. Gracias por tu interés en UBELA." />
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://www.ubela.net/gracias" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
 
-  <!-- Fonts -->
+  <!-- Preconnect fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" />
@@ -26,53 +26,6 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="assets/css/main.css?v=20260817" />
-  <style>
-    .not-found {
-      position: relative;
-    }
-
-    .not-found__number {
-      will-change: transform;
-    }
-
-    .not-found__content .eyebrow {
-      justify-content: center;
-    }
-
-    .not-found__content .eyebrow::before {
-      display: none;
-    }
-
-    .not-found__content .eyebrow::after {
-      content: '';
-      display: inline-block;
-      width: 32px;
-      height: 1px;
-      background: var(--clr-accent);
-      flex-shrink: 0;
-    }
-
-    .not-found__actions {
-      display: flex;
-      gap: var(--sp-md);
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: var(--sp-xl);
-    }
-
-    .not-found__body {
-      font-family: var(--font-condensed);
-      font-size: 1.1rem;
-      font-weight: 300;
-      letter-spacing: 0.05em;
-      color: var(--clr-slate);
-      margin-top: var(--sp-md);
-    }
-
-    .nav {
-      z-index: 200;
-    }
-  </style>
 </head>
 <body>
 
@@ -98,8 +51,8 @@
       <li><a href="trabaja-con-nosotros.html" class="nav__link" data-page="trabaja-con-nosotros.html">Trabaja con nosotros</a></li>
       <li><a href="contacto.html" class="nav__link" data-page="contacto.html">Contacto</a></li>
       <li class="nav__lang" role="list" aria-label="Selector de idioma">
-        <a href="index.html" class="nav__lang-btn active" aria-label="Español" aria-current="true">ES</a>
-        <a href="eu/index.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
+        <a href="gracias.html" class="nav__lang-btn active" aria-label="Español" aria-current="true">ES</a>
+        <a href="eu/eskerrik-asko.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
       </li>
     </ul>
 
@@ -119,44 +72,43 @@
       <li><a href="contacto.html" class="nav__link" data-page="contacto.html">Contacto</a></li>
     </ul>
     <div class="nav__lang" aria-label="Selector de idioma">
-      <a href="index.html" class="nav__lang-btn active" aria-label="Español">ES</a>
-      <a href="eu/index.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
+      <a href="gracias.html" class="nav__lang-btn active" aria-label="Español">ES</a>
+      <a href="eu/eskerrik-asko.html" class="nav__lang-btn" aria-label="Euskara">EU</a>
     </div>
   </div>
 
-  <main>
+  <main id="main-content">
 
-    <!-- 404 Section -->
-    <section class="not-found" aria-labelledby="not-found-heading">
-
-      <!-- Giant 404 number behind content -->
-      <div class="not-found__number" aria-hidden="true">404</div>
-
-      <!-- Foreground content -->
-      <div class="not-found__content" id="not-found-content">
-        <p class="eyebrow" id="not-found-eyebrow" style="opacity: 0;">Error 404</p>
-        <h1 id="not-found-heading" class="display-2" style="margin-top: 1rem; opacity: 0;">
-          PÁGINA NO<br>ENCONTRADA
+    <section class="not-found" aria-labelledby="thanks-heading">
+      <div class="not-found__content">
+        <div class="projects-soon__mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="24" cy="24" r="18"/>
+            <path d="M15 24l6 6 12-12"/>
+          </svg>
+        </div>
+        <h1 id="thanks-heading" class="display-2" style="margin-top: 1rem;">
+          ¡GRACIAS!
         </h1>
-        <p class="not-found__body" id="not-found-body" style="opacity: 0;">
-          La página que buscas no existe.
+        <p class="body-lg" style="margin-top: 1.5rem; max-width: 480px; margin-left: auto; margin-right: auto;">
+          Hemos recibido tu candidatura correctamente. La revisaremos con
+          atención y te responderemos lo antes posible.
         </p>
-        <div class="not-found__actions" id="not-found-actions" style="opacity: 0;">
+        <div class="not-found__actions">
           <a href="index.html" class="btn btn--primary">
             Volver al inicio
             <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
-          <a href="maquinaria.html" class="btn btn--outline">
-            Ver maquinaria
+          <a href="quienes-somos.html" class="btn btn--outline">
+            Conócenos mejor
             <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
         </div>
       </div>
-
     </section>
 
   </main>
@@ -174,48 +126,6 @@
       </div>
     </div>
   </footer>
-
-  <script defer>
-    /* Animación del 404 — se ejecuta cuando GSAP y main.js han cargado */
-    window.addEventListener('load', function () {
-      if (typeof gsap === 'undefined') {
-        ['not-found-eyebrow','not-found-heading','not-found-body','not-found-actions'].forEach(function (id) {
-          var el = document.getElementById(id);
-          if (el) el.style.opacity = '1';
-        });
-        return;
-      }
-
-      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      var number  = document.querySelector('.not-found__number');
-      var eyebrow = document.getElementById('not-found-eyebrow');
-      var heading = document.getElementById('not-found-heading');
-      var body    = document.getElementById('not-found-body');
-      var actions = document.getElementById('not-found-actions');
-
-      if (prefersReduced) {
-        [number, eyebrow, heading, body, actions].forEach(function (el) {
-          if (el) gsap.set(el, { opacity: 1, y: 0 });
-        });
-        return;
-      }
-
-      gsap.to(number, {
-        y: -18,
-        duration: 2.4,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1
-      });
-
-      var tl = gsap.timeline({ delay: 0.2 });
-      tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' });
-      tl.to(heading, { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out' }, '-=0.25');
-      tl.to(body,    { opacity: 1, y: 0, duration: 0.5,  ease: 'power3.out' }, '-=0.25');
-      tl.to(actions, { opacity: 1, y: 0, duration: 0.5,  ease: 'power3.out' }, '-=0.2');
-    });
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>

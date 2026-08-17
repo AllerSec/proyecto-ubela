@@ -1,10 +1,15 @@
 # ============================================================
 # UBELA S.L. — Apache .htaccess
-# https://ubela.es
+# https://www.ubela.net
 # ============================================================
 
 Options -Indexes
 ServerSignature Off
+
+# ─── Ficheros internos (no servir nunca) ─────────────────────
+<FilesMatch "\.md$">
+  Require all denied
+</FilesMatch>
 
 # ─── Custom error pages ──────────────────────────────────────
 ErrorDocument 404 /404.html
@@ -19,11 +24,21 @@ ErrorDocument 403 /404.html
   RewriteCond %{HTTPS} off
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-  # 2. Redirect www to non-www (after HTTPS) ───────────────────
-  RewriteCond %{HTTP_HOST} ^www\.ubela\.es$ [NC]
-  RewriteRule ^ https://ubela.es%{REQUEST_URI} [R=301,L]
+  # 2. Canonical host: non-www to www (after HTTPS) ────────────
+  RewriteCond %{HTTP_HOST} ^ubela\.net$ [NC]
+  RewriteRule ^ https://www.ubela.net%{REQUEST_URI} [R=301,L]
 
-  # 3. Clean URLs — strip .html extension ──────────────────────
+  # 3. Legacy URLs (estructura 2026) — 301 a las páginas nuevas
+  RewriteRule ^servicios(\.html)?$ /maquinaria [R=301,L]
+  RewriteRule ^sobre-nosotros(\.html)?$ /quienes-somos [R=301,L]
+  RewriteRule ^eu/zerbitzuak(\.html)?$ /eu/makineria [R=301,L]
+  RewriteRule ^eu/gu-buruz(\.html)?$ /eu/nor-gara [R=301,L]
+
+  #    Idiomas retirados (EN / FR) — a la portada
+  RewriteRule ^en(/.*)?$ / [R=301,L]
+  RewriteRule ^fr(/.*)?$ / [R=301,L]
+
+  # 4. Clean URLs — strip .html extension ──────────────────────
   #    Existing files/dirs are served directly
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
